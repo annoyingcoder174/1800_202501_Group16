@@ -62,9 +62,14 @@ project-name/
 ---
 
 ## Contributors
+<<<<<<< HEAD
 
 Hi I'm Nazanin. I have a cat.
 Hi I'm Trey. I'm tired.
+=======
+I am Tri, I am an Vietnamese International Student.
+
+>>>>>>> aeb8a6a (Added one line intro to README file for PTri)
 
 ---
 
