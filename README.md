@@ -62,7 +62,6 @@ project-name/
 ---
 
 ## Contributors
-<<<<<<< HEAD
 
 Hi I'm Nazanin. I have a cat.
 Hi I'm Trey. I'm tired.
