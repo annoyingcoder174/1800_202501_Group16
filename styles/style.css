@@ -1,0 +1,132 @@
+/* General Styles */
+body {
+    padding-bottom: 60px; /* Adjust based on your navbar height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    color: #008080;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #006666;
+}
+
+/* Hero Section Styles */
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.display-4 {
+    color: #008080;
+    font-weight: 700;
+}
+
+.col-lg-10.fs-4 {
+    color: #555;
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #008080;
+    box-shadow: 0 0 5px rgba(0, 128, 128, 0.5);
+}
+
+.btn-success {
+    background-color: #008080;
+    border-color: #008080;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #006666;
+    border-color: #006666;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #ffffff;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer a i {
+    font-size: 24px;
+    color: #008080;
+    transition: color 0.3s ease-in-out;
+    margin: 0 10px;
+}
+
+.footer a i:hover {
+    color: #006666;
+}
+
+.footer-bottom {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    color: #555;
+}
+
+.footer-bottom .link {
+    color: #008080;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-bottom .link:hover {
+    color: #006666;
+}
+
+/* Add this to your existing CSS */
+.logo-img {
+    width: 100px; /* Adjust the size as needed */
+    height: 100px; /* Adjust the size as needed */
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover; /* Ensures the image fits well within the circle */
+    margin-bottom: 1rem; /* Adds some space below the logo */
+    border: 3px solid #008080; /* Optional: Adds a border around the logo */
+  }
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .col-lg-10.fs-4 {
+        font-size: 1rem;
+    }
+
+    .footer a i {
+        font-size: 20px;
+    }
+}
