@@ -1,3 +1,4 @@
+
 # Project Name
 
 ## Overview
@@ -65,6 +66,11 @@ project-name/
 
 Hi I'm Nazanin. I have a cat.
 Hi I'm Trey. I'm tired.
+=======
+I am Tri, I am an Vietnamese International Student.
+Hello, this is Leslie! I like to sleep and eat.
+
+>>>>>>> aeb8a6a (Added one line intro to README file for PTri)
 
 ---
 
