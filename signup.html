@@ -23,6 +23,15 @@
       crossorigin="anonymous"
     ></script>
 
+    <!-- Firebase API -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.js"></script> 
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.1/firebase-ui-auth.css"/>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
     <!-- Other libraries go here -->
     <link
       rel="stylesheet"
@@ -58,7 +67,7 @@
         <div class="col-md-10 mx-auto col-lg-5">
           <form class="p-4 p-md-5 border rounded-3 bg-light">
             <div class="form-floating mb-3">
-              <input
+              <input id="firebaseui-auth-container"
                 type="email"
                 class="form-control"
                 id="floatingInput"
@@ -67,7 +76,7 @@
               <label for="floatingInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input
+              <input id="firebaseui-auth-container"
                 type="password"
                 class="form-control"
                 id="floatingPassword"
@@ -75,18 +84,9 @@
               />
               <label for="floatingPassword">Password</label>
             </div>
-            <div class="checkbox mb-3">
-              <label>
-                <input type="checkbox" value="remember-me" /> Remember me
-              </label>
-            </div>
             <button class="w-100 btn btn-lg btn-success" type="submit">
-              Login
+              Sign up
             </button>
-            <hr class="my-4" />
-            <small class="text-muted"
-              >Don't have an account? <a href="signup.html">Sign up</a></small
-            >
           </form>
         </div>
       </div>
@@ -175,4 +175,5 @@
   <!-- Link to scripts of your own -->
   <script src="./scripts/script.js"></script>
   <script src="./scripts/firebaseAPI_4eyes.js"></script>
+  <script src="authentication.js"></script>
 </html>
