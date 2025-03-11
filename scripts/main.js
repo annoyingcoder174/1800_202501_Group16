@@ -18,7 +18,7 @@ function getNameFromAuth() {
 
         } else {
             // No user is signed in.
-            console.log ("No user is logged in");
+            console.log("No user is logged in");
         }
     });
 }
@@ -73,7 +73,7 @@ function displayCardsDynamically(collection) {
     let cardTemplate = document.getElementById("postsCardTemplate"); // Retrieve the HTML element with the ID "hikeCardTemplate" and store it in the cardTemplate variable. 
 
     db.collection(collection).get()   //the collection called "hikes"
-        .then(allPosts=> {
+        .then(allPosts => {
             //var i = 1;  //Optional: if you want to have a unique ID for each hike
             allPosts.forEach(doc => { //iterate thru each doc
                 var docID = doc.id;               // get the unique ID of the document
@@ -85,10 +85,10 @@ function displayCardsDynamically(collection) {
 
                 //update title and text and image
                 newcard.querySelector('.card-title').innerHTML = title;
-                newcard.querySelector('.card-length').innerHTML = hikeLength +"km";
+                newcard.querySelector('.card-length').innerHTML = hikeLength + "km";
                 newcard.querySelector('.card-text').innerHTML = details;
                 newcard.querySelector('.card-image').src = `./images/${postsCode}.jpg`; //Example: NV01.jpg
-                newcard.querySelector('a').href = "eachHike.html?docID="+docID;
+                newcard.querySelector('a').href = "posts.html?docID=" + docID;
 
                 //Optional: give unique ids to all elements for future use
                 // newcard.querySelector('.card-title').setAttribute("id", "ctitle" + i);
