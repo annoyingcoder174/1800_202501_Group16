@@ -1,6 +1,7 @@
 /* General Styles */
 body {
-    padding-bottom: 60px; /* Adjust based on your navbar height */
+    padding-bottom: 60px;
+    /* Adjust based on your navbar height */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #333;
@@ -105,13 +106,19 @@ body {
 
 /* Add this to your existing CSS */
 .logo-img {
-    width: 100px; /* Adjust the size as needed */
-    height: 100px; /* Adjust the size as needed */
-    border-radius: 50%; /* Makes the image round */
-    object-fit: cover; /* Ensures the image fits well within the circle */
-    margin-bottom: 1rem; /* Adds some space below the logo */
-    border: 3px solid #008080; /* Optional: Adds a border around the logo */
-  }
+    width: 100px;
+    /* Adjust the size as needed */
+    height: 100px;
+    /* Adjust the size as needed */
+    border-radius: 50%;
+    /* Makes the image round */
+    object-fit: cover;
+    /* Ensures the image fits well within the circle */
+    margin-bottom: 1rem;
+    /* Adds some space below the logo */
+    border: 3px solid #008080;
+    /* Optional: Adds a border around the logo */
+}
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
@@ -130,4 +137,18 @@ body {
     .footer a i {
         font-size: 20px;
     }
+}
+
+
+#navTop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+#navTop .logo-img {
+    width: 3rem;
+    height: auto;
 }
