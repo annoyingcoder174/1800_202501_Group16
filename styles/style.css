@@ -112,6 +112,7 @@ body {
     margin-bottom: 1rem; /* Adds some space below the logo */
     border: 3px solid #008080; /* Optional: Adds a border around the logo */
   }
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .container {
