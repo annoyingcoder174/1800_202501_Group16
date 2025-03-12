@@ -1,0 +1,195 @@
+/* General Styles */
+body {
+    padding-bottom: 60px;
+    /* Adjust based on footer height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #008080;
+    transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar-brand:hover {
+    color: #006666;
+}
+
+.navbar-nav .nav-link {
+    color: #008080;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #006666;
+}
+
+/* Product Details Container */
+.container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+/* Product Image */
+.glass-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: auto;
+}
+
+/* Product Title */
+#glassName {
+    font-size: 26px;
+    font-weight: bold;
+    color: #008080;
+}
+
+/* Product Description */
+#product-desc {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Product Price */
+#product-price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #e44d26;
+}
+
+/* Buttons */
+.cart-btn {
+    color: #008080;
+    border-color: #008080;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.cart-btn:hover {
+    background-color: #008080;
+    color: white;
+}
+
+.buy-btn {
+    background-color: #008080;
+    border-color: #008080;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.buy-btn:hover {
+    background-color: #006666;
+}
+
+/* Write Review Button */
+.position-relative .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.position-relative .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Ratings (Stars) */
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.3s ease-in-out;
+}
+
+.star:hover,
+.star.active {
+    color: #fbc02d;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #ffffff;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.footer a i {
+    font-size: 24px;
+    color: #008080;
+    transition: color 0.3s ease-in-out;
+    margin: 0 10px;
+}
+
+.footer a i:hover {
+    color: #006666;
+}
+
+.footer-bottom {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    color: #555;
+}
+
+.footer-bottom .link {
+    color: #008080;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.footer-bottom .link:hover {
+    color: #006666;
+}
+
+/* Star Rating */
+.star {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ddd;
+    transition: color 0.3s ease-in-out;
+}
+
+.star:hover,
+.star.active {
+    color: #fbc02d;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .star {
+        font-size: 25px;
+    }
+
+    .footer a i {
+        font-size: 20px;
+    }
+}
