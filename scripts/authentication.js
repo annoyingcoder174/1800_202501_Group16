@@ -21,7 +21,7 @@ var uiConfig = {
                    name: user.displayName,                    //"users" collection
                    email: user.email,                         //with authenticated user's ID (user.uid)
                    location: "",                      //optional default profile info      
-                   posts: ""                        //optional default profile info
+                   posts: ""                      //optional default profile info
             }).then(function () {
                    console.log("New user added to firestore");
                    window.location.assign("main.html");       //re-direct to main.html after signup
