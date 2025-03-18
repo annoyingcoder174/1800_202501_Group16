@@ -24,44 +24,38 @@ function getNameFromAuth() {
 }
 getNameFromAuth(); //run the function
 
-function writeGlasses() {
+function writePosts() {
     //define a variable for the collection you want to create in Firestore to populate data
     var postsRef = db.collection("posts");
 
     postsRef.add({
         code: "posts01",
-        details: "Rayban sunglasses",
+        name: "Rayban sunglasses",
+        details: "Sunglasses for outdoor adventures",
         geolocation: [49.2827, -123.1207], // Example location (Vancouver)
         location: "Surrey",
         owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: -3,
+        prescription: 3,
         last_updated: firebase.firestore.FieldValue.serverTimestamp()
     });
     postsRef.add({
         code: "posts02",
+        name:"Black daily glasses",
         details: "Black Retro-Vintage Flexible Round Eyeglasses",
         geolocation: [49.2827, -123.1207], // Example location (Vancouver)
         location: "Burnaby",
         owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: -3,
+        prescription: 2,
         last_updated: firebase.firestore.FieldValue.serverTimestamp()
     });
     postsRef.add({
         code: "posts03",
-        details: "Square glasses sunglasses",
+        name: "BlueLightDefender", 
+        details: "Glasses for screen protection",
         geolocation: [49.2827, -123.1207], // Example location (Vancouver)
         location: "Vancouver",
         owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: -3,
-        last_updated: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    postsRef.add({
-        code: "glasses01",
-        details: "Rayban sunglasses",
-        geolocation: [49.2827, -123.1207], // Example location (Vancouver)
-        location: "Surrey",
-        owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: -3,
+        prescription: 6,
         last_updated: firebase.firestore.FieldValue.serverTimestamp()
     });
 }
@@ -77,15 +71,18 @@ function displayCardsDynamically(collection) {
             //var i = 1;  //Optional: if you want to have a unique ID for each hike
             allPosts.forEach(doc => { //iterate thru each doc
                 var docID = doc.id;               // get the unique ID of the document
-                var title = doc.data().code;       // get value of the "name" key
+                var title = doc.data().name;       // get value of the "name" key
                 var details = doc.data().details;  // get value of the "details" key
                 var postsCode = doc.data().code;    //get unique ID to each hike to be used for fetching right image
-                var hikeLength = doc.data().length; //gets the length field
+                var glassesPrescription = doc.data().prescription; //gets the priscription field
                 let newcard = cardTemplate.content.cloneNode(true); // Clone the HTML template to create a new card (newcard) that will be filled with Firestore data.
 
                 //update title and text and image
+                newcard.querySelector('.card-prescription').innerHTML =
+                    "Priscription: " + doc.data().prescription + "<br>" +
+                    "Location: " + doc.data().location + "min <br>" +
+                    "Last updated: " + doc.data().last_updated.toDate().toLocaleDateString();
                 newcard.querySelector('.card-title').innerHTML = title;
-                newcard.querySelector('.card-length').innerHTML = hikeLength + "km";
                 newcard.querySelector('.card-text').innerHTML = details;
                 newcard.querySelector('.card-image').src = `./images/${postsCode}.jpg`; //Example: NV01.jpg
                 newcard.querySelector('a').href = "posts.html?docID=" + docID;
