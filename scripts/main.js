@@ -80,7 +80,7 @@ function displayCardsDynamically(collection) {
                 //update title and text and image
                 newcard.querySelector('.card-prescription').innerHTML =
                     "Priscription: " + doc.data().prescription + "<br>" +
-                    "Location: " + doc.data().location + "min <br>" +
+                    "Location: " + doc.data().location + "<br>" +
                     "Last updated: " + doc.data().last_updated.toDate().toLocaleDateString();
                 newcard.querySelector('.card-title').innerHTML = title;
                 newcard.querySelector('.card-text').innerHTML = details;
