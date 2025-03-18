@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-    /* Adjust based on footer height */
+    /* Adjust to avoid overlap with the bottom navbar */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #333;
@@ -12,6 +12,7 @@ body {
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px 20px;
+    transition: all 0.3s ease-in-out;
 }
 
 .navbar-brand {
@@ -41,6 +42,47 @@ body {
     color: #006666;
 }
 
+/* Mobile Navigation Bar (Bottom Navbar) */
+@media (max-width: 768px) {
+    .navbar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: #ffffff;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .navbar-nav .nav-item {
+        flex: 1;
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        padding: 10px 0;
+    }
+
+    .navbar-nav .nav-link i {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    body {
+        padding-bottom: 70px;
+        /* Prevent content from being hidden under navbar */
+    }
+}
+
 /* Product Details Container */
 .container {
     background-color: #ffffff;
@@ -67,19 +109,6 @@ body {
     color: #008080;
 }
 
-/* Product Description */
-#product-desc {
-    font-size: 18px;
-    color: #555;
-}
-
-/* Product Price */
-#product-price {
-    font-size: 22px;
-    font-weight: bold;
-    color: #e44d26;
-}
-
 /* Buttons */
 .cart-btn {
     color: #008080;
@@ -104,15 +133,18 @@ body {
     background-color: #006666;
 }
 
-/* Write Review Button */
-.position-relative .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    transition: background-color 0.3s ease-in-out;
+/* Bookmark Button */
+#bookmark-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    padding: 8px 12px;
+    font-size: 20px;
+    transition: background 0.3s ease-in-out;
 }
 
-.position-relative .btn-primary:hover {
-    background-color: #0056b3;
+#bookmark-btn:hover {
+    background: rgba(255, 255, 255, 1);
 }
 
 /* Ratings (Stars) */
@@ -130,54 +162,26 @@ body {
 
 /* Footer Styles */
 .footer {
-    background-color: #ffffff;
+    background-color: #004d4d;
+    color: white;
     padding: 2rem 0;
     margin-top: 2rem;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-.footer a i {
-    font-size: 24px;
-    color: #008080;
-    transition: color 0.3s ease-in-out;
-    margin: 0 10px;
+    border-radius: 10px 10px 0 0;
 }
 
 .footer a i:hover {
-    color: #006666;
+    color: #66b2b2;
 }
 
 .footer-bottom {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid #eee;
-    color: #555;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+    color: #140707;
+    /* Softer white for text */
 }
-
-.footer-bottom .link {
-    color: #008080;
-    text-decoration: none;
-    transition: color 0.3s ease-in-out;
-}
-
-.footer-bottom .link:hover {
-    color: #006666;
-}
-
-/* Star Rating */
-.star {
-    font-size: 30px;
-    cursor: pointer;
-    color: #ddd;
-    transition: color 0.3s ease-in-out;
-}
-
-.star:hover,
-.star.active {
-    color: #fbc02d;
-}
-
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
@@ -187,6 +191,10 @@ body {
 
     .star {
         font-size: 25px;
+    }
+
+    .footer {
+        padding: 1.5rem 0;
     }
 
     .footer a i {
