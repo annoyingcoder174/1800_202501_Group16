@@ -11,15 +11,39 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="profile.html">Back</a>
-            <!-- Brand/logo -->
-            <a class="navbar-brand" href="profile.html">
-                <img src="./images/EyeCycleLogo.png" alt="EyeCycle Logo" height="40">
-            </a>
-        </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <!-- Brand/logo -->
+      <a class="navbar-brand" href="main.html">
+        <img
+          src="./images/EyeCycleLogo.png"
+          alt="EyeCycle Logo"
+          height="40"
+        />
+      </a>
+
+      <!-- Search Bar -->
+      <form class="d-flex mx-auto position-relative" style="width: 50%">
+        <input
+          class="form-control rounded-pill ps-4 pe-5 search-input"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button
+          class="btn position-absolute end-0 top-50 translate-middle-y me-3"
+          type="submit"
+        >
+          <i class="fas fa-search text-muted"></i>
+        </button>
+      </form>
+
+      <!-- Logout Button -->
+      <button id="logout" class="btn btn-outline-success">Logout</button>
+    </div>
+  </nav>
+  <!-------------------------------------------------------->
     
     <!-- Bookmarks List -->
     <div class="container mt-4">
@@ -29,6 +53,28 @@
         </div>
     </div>
 
+     <!-- Bottom nav bar -->
+     <nav
+     class="navbar fixed-bottom justify-content-center navbar-expand-lg navbar-light bg-light"
+   >
+     <div id="navbarNav">
+       <ul class="navbar-nav d-flex flex-row">
+         <li class="nav-item mx-3">
+           <a class="nav-link" aria-current="page" href="main.html">Home</a>
+         </li>
+         <li class="nav-item mx-3">
+           <a class="nav-link" href="bookmarks.html">Bookmarks</a>
+         </li>
+         <li class="nav-item mx-3">
+           <a class="nav-link" href="#">Add post</a>
+         </li>
+         <li class="nav-item mx-3">
+           <a class="nav-link" href="profile.html">Profile</a>
+         </li>
+       </ul>
+     </div>
+   </nav>
+   <!-- Bottom nav bar -->
     
     <script src="./scripts/bookmarks.js"></script>
 </body>
