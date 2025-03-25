@@ -22,8 +22,6 @@ function listenFileSelect() {
 listenFileSelect();
 
 function savePost() {
-    alert ("Posted!");
-    
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             // User is signed in.
@@ -32,10 +30,6 @@ function savePost() {
             var details = document.getElementById("details").value;
             var prescription = document.getElementById("prescription").value;
             var location = document.getElementById("location").value;
-
-            db.collection("users").doc(user.uid).update({
-                myposts: firebase.firestore.FieldValue.arrayUnion(postDocID)
-            })
 
             db.collection("posts").add({
                 owner: user.uid,
@@ -47,10 +41,10 @@ function savePost() {
                 last_updated: firebase.firestore.FieldValue
                     .serverTimestamp() //current system time
             }).then(doc => {
-                console.log("1. Post document added!");
+                savePostIDforUser(doc.id);
                 console.log(doc.id);
                 uploadPic(doc.id);
-                savePostIDforUser(doc.id);
+                
             })
         } else {
             // No user is signed in.
@@ -71,7 +65,6 @@ function savePostIDforUser(postDocID) {
           })
           .then(() =>{
                 console.log("5. Saved to user's document!");
-                                alert ("Post is complete!");
                 window.location.href = "main.html";
            })
            .catch((error) => {
