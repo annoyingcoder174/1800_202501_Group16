@@ -33,6 +33,10 @@ function savePost() {
             var prescription = document.getElementById("prescription").value;
             var location = document.getElementById("location").value;
 
+            db.collection("users").doc(user.uid).update({
+                myposts: firebase.firestore.FieldValue.arrayUnion(postDocID)
+            })
+
             db.collection("posts").add({
                 owner: user.uid,
                 name: name,
@@ -46,7 +50,7 @@ function savePost() {
                 console.log("1. Post document added!");
                 console.log(doc.id);
                 uploadPic(doc.id);
-                
+                savePostIDforUser(doc.id);
             })
         } else {
             // No user is signed in.
