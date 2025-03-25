@@ -23,7 +23,7 @@ listenFileSelect();
 
 function savePost() {
     alert ("Posted!");
-
+    
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             // User is signed in.
@@ -39,15 +39,14 @@ function savePost() {
                 details: details,
                 prescription: prescription,
                 location: location,
-                code: ImageString,    //save the image!
+                image: ImageString,    //save the image!
                 last_updated: firebase.firestore.FieldValue
                     .serverTimestamp() //current system time
             }).then(doc => {
                 console.log("1. Post document added!");
                 console.log(doc.id);
                 uploadPic(doc.id);
-
-                window.location.href = "main.html";
+                
             })
         } else {
             // No user is signed in.
@@ -69,7 +68,7 @@ function savePostIDforUser(postDocID) {
           .then(() =>{
                 console.log("5. Saved to user's document!");
                                 alert ("Post is complete!");
-                //window.location.href = "showposts.html";
+                window.location.href = "main.html";
            })
            .catch((error) => {
                 console.error("Error writing document: ", error);
