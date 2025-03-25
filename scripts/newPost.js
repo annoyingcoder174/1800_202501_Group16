@@ -61,7 +61,7 @@ function savePostIDforUser(postDocID) {
           console.log("user id is: " + user.uid);
           console.log("postdoc id is: " + postDocID);
           db.collection("users").doc(user.uid).update({
-                myposts: firebase.firestore.FieldValue.arrayUnion(postDocID)
+                posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
           })
           .then(() =>{
                 console.log("5. Saved to user's document!");
