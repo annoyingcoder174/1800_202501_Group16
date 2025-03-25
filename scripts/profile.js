@@ -7,13 +7,13 @@ firebase.auth().onAuthStateChanged(user => {
               const userData = doc.data();
 
               // Profile information
-              document.getElementById("user-name").textContent = userData.name || "No Name";
-              document.getElementById("user-location").textContent = userData.location || "Location not available";
+              document.getElementById("user-name").textContent = userData.name || "Unknown User";
+              document.getElementById("user-location").textContent = userData.location || "Location not provided";
               document.getElementById("profile-pic").src = userData.profilePic || 
-                  "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp";
+              "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
               document.getElementById("user-posts").textContent = userData.posts || 0;
               document.getElementById("user-sold").textContent = userData.soldCount || 0;
-              document.getElementById("user-rating").textContent = userData.rating || 0;
+              document.getElementById("user-rating").textContent = userData.rating || 0.0;
               document.getElementById("user-bio").textContent = userData.bio || "No bio available";
           }
       }).catch(error => {

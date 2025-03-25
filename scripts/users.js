@@ -12,8 +12,9 @@ function fetchUsers() {
       // Clone the template
       const userCard = userCardTemplate.content.cloneNode(true);
 
-      // Fill in user details
-      userCard.querySelector(".profile-pic").src = user.profilePicture || "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
+      // User details
+      userCard.querySelector(".profile-pic").src = user.profilePicture || 
+      "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
       userCard.querySelector(".user-name").textContent = user.name;
       userCard.querySelector(".user-posts").textContent = user.posts || "0";
       userCard.querySelector(".user-sold").textContent = user.sold || "0";
