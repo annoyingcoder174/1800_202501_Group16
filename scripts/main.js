@@ -73,18 +73,17 @@ function displayCardsDynamically(collection) {
                 var docID = doc.id;               // get the unique ID of the document
                 var title = doc.data().name;       // get value of the "name" key
                 var details = doc.data().details;  // get value of the "details" key
-                var postsCode = doc.data().code;    //get unique ID to each hike to be used for fetching right image
-                var glassesPrescription = doc.data().prescription; //gets the priscription field
+                var imageUrl = doc.data().image;    //get unique ID to each hike to be used for fetching right image
                 let newcard = cardTemplate.content.cloneNode(true); // Clone the HTML template to create a new card (newcard) that will be filled with Firestore data.
 
                 //update title and text and image
                 newcard.querySelector('.card-prescription').innerHTML =
-                    "Priscription: " + doc.data().prescription + "<br>" +
+                    "Prescription: " + doc.data().prescription + "<br>" +
                     "Location: " + doc.data().location + "<br>" +
                     "Last updated: " + doc.data().last_updated.toDate().toLocaleDateString();
                 newcard.querySelector('.card-title').innerHTML = title;
                 newcard.querySelector('.card-text').innerHTML = details;
-                newcard.querySelector('.card-image').src = `./images/${postsCode}.jpg`; //Example: NV01.jpg
+                newcard.querySelector('.card-image').src = "data:image/png;base64," + imageUrl; //Points to Firebase instead of local folder.
                 newcard.querySelector('a').href = "posts.html?docID=" + docID;
 
                 //Optional: give unique ids to all elements for future use
