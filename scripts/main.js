@@ -1,103 +1,95 @@
+// Show user name from Firebase Auth
 function getNameFromAuth() {
     firebase.auth().onAuthStateChanged(user => {
-        // Check if a user is signed in:
         if (user) {
-            // Do something for the currently logged-in user here: 
-            console.log(user.uid); //print the uid in the browser console
-            console.log(user.displayName);  //print the user name in the browser console
-            userName = user.displayName;
-
-            //method #1:  insert with JS
-            //document.getElementById("name-goes-here").innerText = userName;    
-
-            //method #2:  insert using jquery
-            $("#name-goes-here").text(userName); //using jquery
-
-            //method #3:  insert using querySelector
-            //document.querySelector("#name-goes-here").innerText = userName
-
+            $("#name-goes-here").text(user.displayName || "User");
         } else {
-            // No user is signed in.
             console.log("No user is logged in");
         }
     });
 }
-getNameFromAuth(); //run the function
+getNameFromAuth();
 
-function writePosts() {
-    //define a variable for the collection you want to create in Firestore to populate data
-    var postsRef = db.collection("posts");
+// Display cards based on selected filters
+function displayCardsWithFilters(filters = {}) {
+    const container = document.getElementById("posts-go-here");
+    const cardTemplate = document.getElementById("postsCardTemplate");
+    container.innerHTML = "";
 
-    postsRef.add({
-        code: "posts01",
-        name: "Rayban sunglasses",
-        details: "Sunglasses for outdoor adventures",
-        geolocation: [49.2827, -123.1207], // Example location (Vancouver)
-        location: "Surrey",
-        owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: 3,
-        last_updated: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    postsRef.add({
-        code: "posts02",
-        name:"Black daily glasses",
-        details: "Black Retro-Vintage Flexible Round Eyeglasses",
-        geolocation: [49.2827, -123.1207], // Example location (Vancouver)
-        location: "Burnaby",
-        owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: 2,
-        last_updated: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    postsRef.add({
-        code: "posts03",
-        name: "BlueLightDefender", 
-        details: "Glasses for screen protection",
-        geolocation: [49.2827, -123.1207], // Example location (Vancouver)
-        location: "Vancouver",
-        owner: "userID123",  // Replace with actual user ID dynamically
-        prescription: 6,
-        last_updated: firebase.firestore.FieldValue.serverTimestamp()
+    db.collection("posts").get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            let match = true;
+
+            // Filter: Type
+            if (filters.types?.length && !filters.types.includes(data.category)) {
+                match = false;
+            }
+
+            // Filter: Location
+            if (filters.locations?.length && !filters.locations.includes(data.location)) {
+                match = false;
+            }
+
+            // Filter: Price Range
+            if (filters.prices?.length) {
+                const price = data.price || 0;
+                const priceMatch = filters.prices.some(range => {
+                    const [min, max] = range.split("-").map(Number);
+                    return price >= min && price <= max;
+                });
+                if (!priceMatch) match = false;
+            }
+
+            // Display card if all filters match
+            if (match) {
+                const card = cardTemplate.content.cloneNode(true);
+
+                card.querySelector(".card-title").textContent = data.name || "Untitled";
+                card.querySelector(".card-text").textContent = data.details || "No description";
+                card.querySelector(".card-prescription").innerHTML = `
+            Prescription: ${data.prescription ?? "N/A"}<br>
+            Location: ${data.location || "Unknown"}<br>
+            Last updated: ${data.last_updated?.toDate().toLocaleDateString() || "Unknown"}
+          `;
+                card.querySelector(".card-image").src = data.image
+                    ? "data:image/png;base64," + data.image
+                    : "./images/placeholder.png"; // fallback image
+                card.querySelector("a").href = `posts.html?docID=${doc.id}`;
+
+                container.appendChild(card);
+            }
+        });
     });
 }
 
-//------------------------------------------------------------------------------
-// Input parameter is a string representing the collection we are reading from
-//------------------------------------------------------------------------------
-function displayCardsDynamically(collection) {
-    let cardTemplate = document.getElementById("postsCardTemplate"); // Retrieve the HTML element with the ID "hikeCardTemplate" and store it in the cardTemplate variable. 
+// Collect selected filters from UI
+function applySelectedFilters() {
+    const types = Array.from(document.querySelectorAll(".filter-type:checked")).map(cb => cb.value);
+    const prices = Array.from(document.querySelectorAll(".filter-price:checked")).map(cb => cb.value);
+    const locations = Array.from(document.querySelectorAll(".filter-location:checked")).map(cb => cb.value);
 
-    db.collection(collection).get()   //the collection called "hikes"
-        .then(allPosts => {
-            //var i = 1;  //Optional: if you want to have a unique ID for each hike
-            allPosts.forEach(doc => { //iterate thru each doc
-                var docID = doc.id;               // get the unique ID of the document
-                var title = doc.data().name;       // get value of the "name" key
-                var details = doc.data().details;  // get value of the "details" key
-                var postsCode = doc.data().code;    //get unique ID to each hike to be used for fetching right image
-                var glassesPrescription = doc.data().prescription; //gets the priscription field
-                let newcard = cardTemplate.content.cloneNode(true); // Clone the HTML template to create a new card (newcard) that will be filled with Firestore data.
+    const filters = {
+        types,
+        prices,
+        locations
+    };
 
-                //update title and text and image
-                newcard.querySelector('.card-prescription').innerHTML =
-                    "Priscription: " + doc.data().prescription + "<br>" +
-                    "Location: " + doc.data().location + "<br>" +
-                    "Last updated: " + doc.data().last_updated.toDate().toLocaleDateString();
-                newcard.querySelector('.card-title').innerHTML = title;
-                newcard.querySelector('.card-text').innerHTML = details;
-                newcard.querySelector('.card-image').src = `./images/${postsCode}.jpg`; //Example: NV01.jpg
-                newcard.querySelector('a').href = "posts.html?docID=" + docID;
-
-                //Optional: give unique ids to all elements for future use
-                // newcard.querySelector('.card-title').setAttribute("id", "ctitle" + i);
-                // newcard.querySelector('.card-text').setAttribute("id", "ctext" + i);
-                // newcard.querySelector('.card-image').setAttribute("id", "cimage" + i);
-
-                //attach to gallery, Example: "hikes-go-here"
-                document.getElementById(collection + "-go-here").appendChild(newcard);
-
-                //i++;   //Optional: iterate variable to serve as unique ID
-            })
-        })
+    displayCardsWithFilters(filters);
 }
 
-displayCardsDynamically("posts");  //input param is the name of the collection
+// On page load
+document.addEventListener("DOMContentLoaded", () => {
+    displayCardsWithFilters(); // Default: show all
+
+    const applyBtn = document.getElementById("applyFiltersBtn");
+    if (applyBtn) {
+        applyBtn.addEventListener("click", () => {
+            applySelectedFilters();
+
+            // Close filter panel (Bootstrap offcanvas)
+            const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("filterPanel"));
+            if (offcanvas) offcanvas.hide();
+        });
+    }
+});
