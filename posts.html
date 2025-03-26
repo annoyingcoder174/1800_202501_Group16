@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>EyeCycle - Product Details</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <title>EyeCycle - Product Details</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
 
-  <!-- FontAwesome (Icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Firebase Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
-  <!-- Firebase Libraries -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./styles/posts.css" />
+  </head>
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="./styles/posts.css" />
-  <link rel="icon" type="image/png" href="./images/EyeCycleLogo.png">
-</head>
-
-<body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <body>
+    <!-- Navigation Bar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="#">
         <img src="./images/EyeCycleLogo.png" alt="EyeCycle Logo" class="logo-img" height="40" />
@@ -51,92 +55,103 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
 
-  <!-- Product Details Section -->
-  <div class="container mt-4">
-    <div class="row">
-      <!-- Product Image & Bookmark -->
-      <div class="col-md-6 text-center position-relative">
-        <img class="glass-img" src="" alt="Glasses photo" />
-        <!-- Bookmark Button -->
-        <button id="bookmark-btn" class="btn btn-light position-absolute top-0 end-0 m-3"
-          onclick="toggleBookmark(getDocID())">
-          <i class="fa-regular fa-bookmark"></i>
+    <!-- Bottom Navbar -->
+    <nav id="navbarPlaceholder"></nav>
+
+    <!-- Product Details Section -->
+    <div class="container mt-4">
+      <div class="row">
+        <!-- Product Image & Bookmark -->
+        <div class="col-md-6 text-center position-relative">
+          <img class="glass-img" src="" alt="Glasses photo" />
+          <!-- Bookmark Button -->
+          <button
+            id="bookmark-btn"
+            class="btn btn-light position-absolute top-0 end-0 m-3"
+            onclick="toggleBookmark(getDocID())"
+          >
+            <i class="fa-regular fa-bookmark"></i>
+          </button>
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6">
+          <h1 id="glassName">This Glasses</h1>
+          <div class="position-relative"></div>
+        </div>
+      </div>
+
+      <!-- Contact & Add to Cart Buttons -->
+      <div class="mt-3 text-center">
+        <a class="btn btn-primary btn-lg contact-btn" href="#">
+          <i class="fa-solid fa-phone"></i> Contact
+        </a>
+        <button class="btn btn-outline-primary btn-lg me-2 cart-btn">
+          <i class="fa-solid fa-cart-plus"></i> Add to Cart
         </button>
       </div>
 
-
-      <!-- Product Details -->
-      <div class="col-md-6">
-        <h1 id="glassName">This Glasses</h1>
-        <div class="position-relative"></div>
+      <!-- Rating Section -->
+      <div class="card-body text-center mt-4">
+        <p>Rate this product:</p>
+        <span class="fa fa-star star" id="star1"></span>
+        <span class="fa fa-star star" id="star2"></span>
+        <span class="fa fa-star star" id="star3"></span>
+        <span class="fa fa-star star" id="star4"></span>
+        <span class="fa fa-star star" id="star5"></span>
       </div>
     </div>
 
-    <!-- Contact & Add to Cart Buttons -->
-    <div class="mt-3 text-center">
-      <a class="btn btn-primary btn-lg contact-btn" href="#">
-        <i class="fa-solid fa-phone"></i> Contact
-      </a>
-      <button class="btn btn-outline-primary btn-lg me-2 cart-btn">
-        <i class="fa-solid fa-cart-plus"></i> Add to Cart
-      </button>
-    </div>
+    <!-- Footer Section -->
+    <!-- <footer class="footer section text-center">
+      <div class="container">
+        <div class="footer-top">
+          <p class="title-1">Get News & Offers</p>
+          <form action="" class="input-wrapper d-inline-block">
+            <div class="icon-wrapper d-flex">
+              <input
+                type="email"
+                name="email_address"
+                placeholder="Your email"
+                class="input-field form-control"
+              />
+              <button type="submit" class="btn btn-light">Subscribe</button>
+            </div>
+          </form>
+        </div>
 
-    <!-- Rating Section -->
-    <div class="card-body text-center mt-4">
-      <p>Rate this product:</p>
-      <span class="fa fa-star star" id="star1"></span>
-      <span class="fa fa-star star" id="star2"></span>
-      <span class="fa fa-star star" id="star3"></span>
-      <span class="fa fa-star star" id="star4"></span>
-      <span class="fa fa-star star" id="star5"></span>
-    </div>
-  </div>
+        <!-- Social Links -->
+    <!-- <div class="social-links">
+          <a href="https://www.facebook.com/phuctri174/" target="_blank">
+            <i class="fa-brands fa-facebook"></i>
+          </a>
+          <a href="https://www.instagram.com/pt_1704/" target="_blank">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" target="_blank">
+            <i class="fa-solid fa-map"></i>
+          </a>
+        </div> -->
 
-  <!-- Footer Section -->
-  <footer class="footer section text-center">
-    <div class="container">
-      <div class="footer-top">
-        <p class="title-1">Get News & Offers</p>
-        <form action="" class="input-wrapper d-inline-block">
-          <div class="icon-wrapper d-flex">
-            <input type="email" name="email_address" placeholder="Your email" class="input-field form-control" />
-            <button type="submit" class="btn btn-light">Subscribe</button>
-          </div>
-        </form>
+    <!-- <div class="footer-bottom">
+          <p class="mb-0">
+            &copy; 2025 EyeCycle. All Rights Reserved | Crafted by
+            <a href="https://www.facebook.com/phuctri174/" target="_blank"
+              >4Eyes Team</a
+            >
+          </p>
+        </div>
       </div>
+    </footer> -->
 
-      <!-- Social Links -->
-      <div class="social-links">
-        <a href="https://www.facebook.com/phuctri174/" target="_blank">
-          <i class="fa-brands fa-facebook"></i>
-        </a>
-        <a href="https://www.instagram.com/pt_1704/" target="_blank">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="#" target="_blank">
-          <i class="fa-solid fa-map"></i>
-        </a>
-      </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-      <div class="footer-bottom">
-        <p class="mb-0">
-          &copy; 2025 EyeCycle. All Rights Reserved | Crafted by
-          <a href="https://www.facebook.com/phuctri174/" target="_blank">4Eyes Team</a>
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Custom Scripts -->
-  <script src="./scripts/firebaseAPI_4eyes.js"></script>
-  <script src="./scripts/skeleton.js"></script>
-  <script src="./scripts/posts.js"></script>
-</body>
-
+    <!-- Custom Scripts -->
+    <script src="./scripts/firebaseAPI_4eyes.js"></script>
+    <script src="./scripts/skeleton.js"></script>
+    <script src="./scripts/posts.js"></script>
+  </body>
 </html>
