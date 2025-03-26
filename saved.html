@@ -16,17 +16,57 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <!-- Custom styles (optional) -->
-    <link rel="stylesheet" href="./styles/posts.css">
+    <link rel="stylesheet" href="./styles/style.css" />
     <!-- Place this in the <head> section of your HTML file -->
     <link rel="icon" type="image/png" href="./images/EyeCycleLogo.png">
 
 </head>
 
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="main.html">
+                <img src="./images/EyeCycleLogo.png" alt="EyeCycle Logo" height="40" />
+            </a>
+
+            <!-- Search + Filter -->
+            <form class="d-flex mx-auto align-items-center" style="width: 70%">
+                <input class="form-control rounded-pill ps-4 pe-5" type="search" placeholder="Search" />
+                <button class="btn position-absolute end-0 me-3" type="submit">
+                    <i class="fas fa-search text-muted"></i>
+                </button>
+
+                <!-- Circular Filter Button -->
+                <button class="btn btn-outline-secondary rounded-circle ms-3" id="filterBtn" title="Filter"
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </form>
+        </div>
+    </nav>
     <div class="container mt-4">
         <h1 class="text-center">Your Saved Glasses</h1>
         <div id="bookmarkedList" class="row mt-4"></div>
     </div>
+
+    <!-- Posts Container -->
+    <div class="container mt-4">
+        <div id="posts-go-here" class="row row-cols-auto"></div>
+    </div>
+
+    <!-- Bottom Navbar -->
+    <nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-light justify-content-center">
+        <div id="navbarNav">
+            <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item mx-3"><a class="nav-link" href="main.html">Home</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="saved.html">Bookmarks</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="newPost.html">Add post</a></li>
+                <li class="nav-item mx-3"><a class="nav-link" href="profile.html">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <!-- Firebase init -->
     <script src="./scripts/firebaseAPI_4eyes.js"></script>
