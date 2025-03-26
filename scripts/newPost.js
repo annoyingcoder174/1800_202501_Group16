@@ -30,12 +30,15 @@ function savePost() {
             var details = document.getElementById("details").value;
             var prescription = document.getElementById("prescription").value;
             var location = document.getElementById("location").value;
+            var price = document.getElementById("price").value;
 
             db.collection("posts").add({
                 owner: user.uid,
                 name: name,
+                email: user.email,
                 details: details,
                 prescription: prescription,
+                price: price,
                 location: location,
                 image: ImageString,    //save the image!
                 last_updated: firebase.firestore.FieldValue
@@ -44,7 +47,7 @@ function savePost() {
                 savePostIDforUser(doc.id);
                 console.log(doc.id);
                 uploadPic(doc.id);
-
+                
             })
         } else {
             // No user is signed in.
