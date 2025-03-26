@@ -1,7 +1,7 @@
 var ImageFile;
 function listenFileSelect() {
     // listen for file selection
-   document.getElementById("mypic-input").addEventListener('change', function (e) {
+    document.getElementById("mypic-input").addEventListener('change', function (e) {
         file = e.target.files[0];
         if (file) {
             var reader = new FileReader(); // Create a FileReader to read the file
@@ -44,11 +44,11 @@ function savePost() {
                 savePostIDforUser(doc.id);
                 console.log(doc.id);
                 uploadPic(doc.id);
-                
+
             })
         } else {
             // No user is signed in.
-                          console.log("Error, no user signed in");
+            console.log("Error, no user signed in");
         }
     });
 }
@@ -58,17 +58,17 @@ function savePost() {
 //--------------------------------------------
 function savePostIDforUser(postDocID) {
     firebase.auth().onAuthStateChanged(user => {
-          console.log("user id is: " + user.uid);
-          console.log("postdoc id is: " + postDocID);
-          db.collection("users").doc(user.uid).update({
-                posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
-          })
-          .then(() =>{
+        console.log("user id is: " + user.uid);
+        console.log("postdoc id is: " + postDocID);
+        db.collection("users").doc(user.uid).update({
+            posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
+        })
+            .then(() => {
                 console.log("5. Saved to user's document!");
                 window.location.href = "main.html";
-           })
-           .catch((error) => {
+            })
+            .catch((error) => {
                 console.error("Error writing document: ", error);
-           });
+            });
     })
 }
