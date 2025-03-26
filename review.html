@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>EyeCycle</title>
     <meta name="eyecycle" content="eyecycle" />
 
@@ -52,95 +51,117 @@
     <link rel="stylesheet" href="./styles/style.css" />
 
     <script src="./scripts/review.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <br>
-        <h1>Review for <span id="postName"> Post Name</span></h1>
-        <br>
-        <form>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Add a title</label>
-                <input type="text" class="form-control" id="title" placeholder="Title">
-            </div><br>
-            <div class="form-group">
-                <div class="card-body">
-                    <p>Rate your overall experience:</p>
-                    <span class="material-icons star" id="star1">star_outline</span>
-                    <span class="material-icons star" id="star2">star_outline</span>
-                    <span class="material-icons star" id="star3">star_outline</span>
-                    <span class="material-icons star" id="star4">star_outline</span>
-                    <span class="material-icons star" id="star5">star_outline</span>
-                </div>
-                <!-- Maybe make this /5 stars when I figure out how to do it -->
-                <label for="exampleFormControlSelect1">How was their communication?</label>
-                <select class="form-control" id="communication">
-                    <option>Responsive</option>
-                    <option>Could be better</option>
-                    <option>Ghosted me</option>
-                </select>
-                <br>
-                <div class="form-group">
-                    <label for="exampleFormControlTextarea1">Anything else to add?</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
-                </div>
-                <br>
-                <!-- Rating -->
-                <label>Were the glasses provided as described? <span style="display:inline-block; width: 26pt;"></span></label>
+      <br />
+      <h1>Review for <span id="postName"> Post Name</span></h1>
+      <br />
+      <form>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Add a title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            placeholder="Title"
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="card-body">
+            <p>Rate your overall experience:</p>
+            <span class="material-icons star" id="star1">star_outline</span>
+            <span class="material-icons star" id="star2">star_outline</span>
+            <span class="material-icons star" id="star3">star_outline</span>
+            <span class="material-icons star" id="star4">star_outline</span>
+            <span class="material-icons star" id="star5">star_outline</span>
+          </div>
+          <!-- Maybe make this /5 stars when I figure out how to do it -->
+          <label for="exampleFormControlSelect1"
+            >How was their communication?</label
+          >
+          <select class="form-control" id="communication">
+            <option>Responsive</option>
+            <option>Could be better</option>
+            <option>Ghosted me</option>
+          </select>
+          <br />
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1"
+              >Anything else to add?</label
+            >
+            <textarea class="form-control" id="description" rows="3"></textarea>
+          </div>
+          <br />
+          <!-- Rating -->
+          <label
+            >Were the glasses provided as described?
+            <span style="display: inline-block; width: 26pt"></span
+          ></label>
 
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="described" value="Yes">
-                    <label>Yes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="described" value="No">
-                    <label>No</label>
-                </div>
-                <br>
-                <label>Would you recommend this user? <span style="display:inline-block; width: 26pt;"></span></label>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="described"
+              value="Yes"
+            />
+            <label>Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="described"
+              value="No"
+            />
+            <label>No</label>
+          </div>
+          <br />
+          <label
+            >Would you recommend this user?
+            <span style="display: inline-block; width: 26pt"></span
+          ></label>
 
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="recommend" value="Yes">
-                    <label>Yes</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="recommend" value="No">
-                    <label>No</label>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-lg btn-primary pull-right"
-                        onclick="writeReview()">Submit</button>
-                </div>
-            </div>
-        </form>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="recommend"
+              value="Yes"
+            />
+            <label>Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="recommend"
+              value="No"
+            />
+            <label>No</label>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-lg btn-primary pull-right"
+              onclick="writeReview()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
 
     <!-- Bottom nav bar -->
-    <nav
-      class="navbar fixed-bottom justify-content-center navbar-expand-lg navbar-light bg-light"
-    >
-      <div id="navbarNav">
-        <ul class="navbar-nav d-flex flex-row">
-          <li class="nav-item mx-3">
-            <a class="nav-link" aria-current="page" href="main.html">Home</a>
-          </li>
-          <li class="nav-item mx-3">
-            <a class="nav-link" href="bookmarks.html">Bookmarks</a>
-          </li>
-          <li class="nav-item mx-3">
-            <a class="nav-link" href="newPost.html">Add post</a>
-          </li>
-          <li class="nav-item mx-3">
-            <a class="nav-link" href="profile.html">Profile</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <nav id="navbarPlaceholder"></nav>
     <!-- Bottom nav bar -->
 
     <script src="./scripts/firebaseAPI_4eyes.js"></script>
     <script src="./scripts/authentication.js"></script>
-</body>
-
+    <script src="./scripts/skeleton.js"></script>
+  </body>
 </html>
