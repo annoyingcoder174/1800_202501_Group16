@@ -103,7 +103,26 @@
     </template>
 
     <!-- Bottom nav bar -->
-    <nav id="navbarPlaceholder"></nav>
+    <nav
+      class="navbar fixed-bottom justify-content-center navbar-expand-lg navbar-light bg-light"
+    >
+      <div id="navbarNav">
+        <ul class="navbar-nav d-flex flex-row">
+          <li class="nav-item mx-3">
+            <a class="nav-link" aria-current="page" href="main.html">Home</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="bookmarks.html">Bookmarks</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#">Add post</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="profile.html">Profile</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <!-- Bottom nav bar -->
 
     <!---------------------------------------------->
@@ -112,6 +131,5 @@
     <script src="./scripts/firebaseAPI_4eyes.js"></script>
     <script src="./scripts/authentication.js"></script>
     <script src="./scripts/users.js"></script>
-    <script src="./scripts/skeleton.js"></script>
   </body>
 </html>
