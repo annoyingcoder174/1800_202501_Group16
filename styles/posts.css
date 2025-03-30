@@ -1,7 +1,6 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-    /* Adjust to avoid overlap with the bottom navbar */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #333;
@@ -79,7 +78,6 @@ body {
 
     body {
         padding-bottom: 70px;
-        /* Prevent content from being hidden under navbar */
     }
 }
 
@@ -103,10 +101,26 @@ body {
 }
 
 /* Product Title */
-#glassName {
-    font-size: 26px;
-    font-weight: bold;
-    color: #008080;
+#glassTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #008040;
+    margin-bottom: 1rem;
+}
+
+/* Product Detail Fields */
+#glassDetails,
+#glassPrice,
+#glassPrescription,
+#glassLocation {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+#glassPrice {
+    font-weight: 600;
+    color: #009999;
 }
 
 /* Buttons */
@@ -122,16 +136,46 @@ body {
     color: white;
 }
 
-.buy-btn {
+.buy-btn,
+.contact-btn {
     background-color: #008080;
     border-color: #008080;
     font-weight: 600;
+    color: white;
     transition: background-color 0.3s ease-in-out;
 }
 
-.buy-btn:hover {
+.buy-btn:hover,
+.contact-btn:hover {
     background-color: #006666;
 }
+
+/* Average Rating Display Box */
+.average-rating-box {
+    background-color: #e6f9f9;
+    padding: 10px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-top: 8px;
+    box-shadow: 0 2px 6px rgba(0, 128, 128, 0.1);
+    font-size: 16px;
+    font-weight: 500;
+    color: #004d4d;
+}
+
+.average-rating-box .average-label {
+    color: #008080;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.average-rating-box .average-value {
+    color: #f39c12;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
 
 /* Bookmark Button */
 #bookmark-btn {
@@ -180,7 +224,6 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 14px;
     color: #140707;
-    /* Softer white for text */
 }
 
 /* Responsive Adjustments */
@@ -199,5 +242,16 @@ body {
 
     .footer a i {
         font-size: 20px;
+    }
+
+    #glassTitle {
+        font-size: 24px;
+    }
+
+    #glassDetails,
+    #glassPrice,
+    #glassPrescription,
+    #glassLocation {
+        font-size: 15px;
     }
 }

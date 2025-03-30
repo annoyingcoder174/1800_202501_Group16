@@ -10,38 +10,6 @@ function getNameFromAuth() {
 }
 getNameFromAuth();
 
-function displayCardsDynamically(collection) {
-    let cardTemplate = document.getElementById("postsCardTemplate"); // Ensure this matches your HTML template ID
-    if (!cardTemplate) {
-        console.error("Template with ID 'postsCardTemplate' not found.");
-        return;
-    }
-
-    db.collection(collection).get()   //the collection called "posts"
-        .then(allPosts => {
-            allPosts.forEach(doc => { //iterate thru each doc
-
-                var title = doc.data().name;       // get value of the "code" key
-                var details = doc.data().details;  // get value of the "details" key
-                var postCode = doc.data().code;    //get unique ID to each post to be used for fetching right image
-                let newcard = cardTemplate.content.cloneNode(true); // Clone the HTML template to create a new card (newcard) that will be filled with Firestore data.
-
-                //update title and text and image
-                newcard.querySelector('.card-title').innerHTML = title;
-                newcard.querySelector('.card-text').innerHTML = details;
-                newcard.querySelector('.card-image').src = `./images/${hikeCode}.jpg`; //Example: NV01.jpg
-                newcard.querySelector('a').href = "posts.html?docID=" + docID;
-
-                //attach to gallery, Example: "posts-go-here"
-                document.getElementById(collection + "-go-here").appendChild(newcard);
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching documents: ", error);
-        });
-}
-displayCardsDynamically("posts"); //invoke the function
-
 // Display cards based on selected filters
 function displayCardsWithFilters(filters = {}) {
     const container = document.getElementById("posts-go-here");
@@ -80,14 +48,21 @@ function displayCardsWithFilters(filters = {}) {
                 card.querySelector(".card-title").textContent = data.name || "Untitled";
                 card.querySelector(".card-text").textContent = data.details || "No description";
                 card.querySelector(".card-prescription").innerHTML = `
-            Prescription: ${data.prescription ?? "N/A"}<br>
-            Location: ${data.location || "Unknown"}<br>
-            Last updated: ${data.last_updated?.toDate().toLocaleDateString() || "Unknown"}
-          `;
+                    Prescription: ${data.prescription ?? "N/A"}<br>
+                    Location: ${data.location || "Unknown"}<br>
+                    Last updated: ${data.last_updated?.toDate().toLocaleDateString() || "Unknown"}
+                `;
                 card.querySelector(".card-image").src = data.image
                     ? "data:image/png;base64," + data.image
-                    : "./images/placeholder.png"; // fallback image
+                    : "./images/placeholder.png";
                 card.querySelector("a").href = `posts.html?docID=${doc.id}`;
+
+                // ❤️ Like button setup
+                const likeBtn = card.querySelector(".like-btn");
+                if (likeBtn) {
+                    likeBtn.setAttribute("data-doc-id", doc.id);
+                    setupLikeListener(likeBtn, doc.id);
+                }
 
                 container.appendChild(card);
             }
@@ -110,16 +85,72 @@ function applySelectedFilters() {
     displayCardsWithFilters(filters);
 }
 
+// Setup like button listener
+function setupLikeListener(button, postID) {
+    const icon = button.querySelector("i");
+    const countSpan = button.querySelector(".like-count");
+
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+            button.disabled = true;
+            icon.classList.remove("fa-solid");
+            icon.classList.add("fa-regular");
+            return;
+        }
+
+        const likeRef = db.collection("posts").doc(postID).collection("likes").doc(user.uid);
+
+        // Check current like state
+        likeRef.get().then(doc => {
+            if (doc.exists) {
+                icon.classList.remove("fa-regular");
+                icon.classList.add("fa-solid");
+            } else {
+                icon.classList.remove("fa-solid");
+                icon.classList.add("fa-regular");
+            }
+        });
+
+        // Toggle like on click
+        button.addEventListener("click", () => {
+            likeRef.get().then(doc => {
+                if (doc.exists) {
+                    likeRef.delete().then(() => {
+                        icon.classList.remove("fa-solid");
+                        icon.classList.add("fa-regular");
+                        updateLikeCount(postID, countSpan);
+                    });
+                } else {
+                    likeRef.set({ likedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => {
+                        icon.classList.remove("fa-regular");
+                        icon.classList.add("fa-solid");
+                        updateLikeCount(postID, countSpan);
+                    });
+                }
+            });
+        });
+
+        // Initial count
+        updateLikeCount(postID, countSpan);
+    });
+}
+
+// Count total likes
+function updateLikeCount(postID, element) {
+    db.collection("posts").doc(postID).collection("likes").get().then(snapshot => {
+        element.textContent = snapshot.size;
+    });
+}
+
 // On page load
 document.addEventListener("DOMContentLoaded", () => {
-    displayCardsWithFilters(); // Default: show all
+    displayCardsWithFilters();
 
     const applyBtn = document.getElementById("applyFiltersBtn");
     if (applyBtn) {
         applyBtn.addEventListener("click", () => {
             applySelectedFilters();
 
-            // Close filter panel (Bootstrap offcanvas)
             const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("filterPanel"));
             if (offcanvas) offcanvas.hide();
         });

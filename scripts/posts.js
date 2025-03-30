@@ -1,83 +1,115 @@
 function displayGlassInfo() {
     let params = new URL(window.location.href);
     let ID = params.searchParams.get("docID");
-    console.log(ID);
 
     db.collection("posts")
         .doc(ID)
         .get()
         .then(doc => {
             if (doc.exists) {
-                let thisPosts = doc.data();
-                let postsCode = thisPosts.code;
-                let postsName = thisPosts.details;
-                let ownerEmail = thisPosts.email; // Ensure email exists in Firebase
+                const thisPost = doc.data();
+                const { name, details, price, prescription, location, email, image } = thisPost;
 
-                document.getElementById("glassName").innerHTML = postsName;
-                let imgEvent = document.querySelector(".glass-img");
-                imgEvent.src = "./images/" + postsCode + ".jpg";
+                // Set fields
+                document.getElementById("glassTitle").innerText = name || "Untitled";
+                document.getElementById("glassDetails").innerText = details || "No description provided.";
+                document.getElementById("glassPrice").innerText = "Price: $" + (price || "N/A");
+                document.getElementById("glassPrescription").innerText = "Prescription: " + (prescription || "N/A");
+                document.getElementById("glassLocation").innerText = "Location: " + (location || "N/A");
 
-                // Update Contact Button
-                let contactBtn = document.querySelector(".contact-btn");
-                if (ownerEmail) {
-                    contactBtn.href = `mailto:${ownerEmail}`;
+                const img = document.querySelector(".glass-img");
+                img.src = image ? "data:image/png;base64," + image : "./images/placeholder.jpg";
+
+                const contactBtn = document.querySelector(".contact-btn");
+                if (email) {
+                    contactBtn.href = `mailto:${email}`;
                 } else {
                     contactBtn.href = "#";
                     contactBtn.classList.add("disabled");
                     contactBtn.innerHTML = `<i class="fa-solid fa-phone"></i> Email Not Available`;
                 }
 
-                // Check and update bookmark status
                 checkIfBookmarked(ID);
             } else {
                 console.error("No such document!");
             }
         })
         .catch(error => {
-            console.error("Error fetching document: ", error);
+            console.error("Error fetching document:", error);
         });
 }
 
-// Function to enable star rating
+// Enable interactive rating with Firestore saving
 function enableStarRating() {
     const stars = document.querySelectorAll(".star");
     let selectedRating = 0;
+    const postID = getDocID();
 
-    stars.forEach((star, index) => {
-        star.addEventListener("mouseover", () => {
-            resetStars();
-            for (let i = 0; i <= index; i++) {
-                stars[i].classList.add("active");
-            }
-        });
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            const ratingRef = db.collection("posts").doc(postID).collection("ratings").doc(user.uid);
 
-        star.addEventListener("mouseleave", () => {
-            updateStarDisplay(selectedRating);
-        });
+            // Load existing rating for the user
+            ratingRef.get().then(doc => {
+                if (doc.exists) {
+                    selectedRating = doc.data().rating;
+                    updateStarDisplay(selectedRating);
+                }
+            });
 
-        star.addEventListener("click", () => {
-            selectedRating = index + 1;
-            localStorage.setItem("selectedRating", selectedRating);
-            console.log("User rated:", selectedRating);
-            updateStarDisplay(selectedRating);
-        });
+            stars.forEach((star, index) => {
+                star.addEventListener("mouseover", () => {
+                    resetStars();
+                    for (let i = 0; i <= index; i++) {
+                        stars[i].classList.add("active");
+                    }
+                });
+
+                star.addEventListener("mouseleave", () => {
+                    updateStarDisplay(selectedRating);
+                });
+
+                star.addEventListener("click", () => {
+                    selectedRating = index + 1;
+                    ratingRef.set({
+                        rating: selectedRating,
+                        ratedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).then(() => {
+                        console.log("Rating saved:", selectedRating);
+                        updateStarDisplay(selectedRating);
+                        updateAverageRating(postID); // Recalculate average
+                    });
+                });
+            });
+        }
     });
-
-    let storedRating = localStorage.getItem("selectedRating");
-    if (storedRating) {
-        selectedRating = parseInt(storedRating);
-        updateStarDisplay(selectedRating);
-    }
 }
 
-// Function to reset stars
+// Calculate and show average rating
+function updateAverageRating(postID) {
+    db.collection("posts").doc(postID).collection("ratings").get().then(snapshot => {
+        let total = 0;
+        let count = 0;
+
+        snapshot.forEach(doc => {
+            total += doc.data().rating;
+            count++;
+        });
+
+        const avg = count > 0 ? (total / count).toFixed(1) : "0.0";
+        document.querySelector(".average-value").innerText = `${avg} / 5`;
+    });
+}
+
+
+// Reset all stars
 function resetStars() {
     document.querySelectorAll(".star").forEach(star => {
         star.classList.remove("active");
     });
 }
 
-// Function to update stars display
+// Fill stars based on selected rating
 function updateStarDisplay(rating) {
     resetStars();
     for (let i = 0; i < rating; i++) {
@@ -85,7 +117,7 @@ function updateStarDisplay(rating) {
     }
 }
 
-// Function to toggle bookmarks
+// Bookmark toggle
 function toggleBookmark(postID) {
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -98,11 +130,12 @@ function toggleBookmark(postID) {
                         document.getElementById("bookmark-btn").innerHTML = `<i class="fa-regular fa-bookmark"></i>`;
                     });
                 } else {
-                    userBookmarksRef.doc(postID).set({ bookmarkedAt: firebase.firestore.FieldValue.serverTimestamp() })
-                        .then(() => {
-                            console.log("Bookmarked!");
-                            document.getElementById("bookmark-btn").innerHTML = `<i class="fa-solid fa-bookmark"></i>`;
-                        });
+                    userBookmarksRef.doc(postID).set({
+                        bookmarkedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }).then(() => {
+                        console.log("Bookmarked!");
+                        document.getElementById("bookmark-btn").innerHTML = `<i class="fa-solid fa-bookmark"></i>`;
+                    });
                 }
             });
         } else {
@@ -111,31 +144,30 @@ function toggleBookmark(postID) {
     });
 }
 
-// Function to check if a product is already bookmarked
+// Check if product is bookmarked
 function checkIfBookmarked(postID) {
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
             let userBookmarksRef = db.collection("users").doc(user.uid).collection("bookmarks");
 
             userBookmarksRef.doc(postID).get().then(doc => {
-                if (doc.exists) {
-                    document.getElementById("bookmark-btn").innerHTML = `<i class="fa-solid fa-bookmark"></i>`;
-                } else {
-                    document.getElementById("bookmark-btn").innerHTML = `<i class="fa-regular fa-bookmark"></i>`;
-                }
+                document.getElementById("bookmark-btn").innerHTML = doc.exists
+                    ? `<i class="fa-solid fa-bookmark"></i>`
+                    : `<i class="fa-regular fa-bookmark"></i>`;
             });
         }
     });
 }
 
-// Helper function to get docID from URL
+// Get doc ID from URL
 function getDocID() {
     let params = new URL(window.location.href);
     return params.searchParams.get("docID");
 }
 
-// Initialize functions on page load
+// Init
 document.addEventListener("DOMContentLoaded", () => {
     displayGlassInfo();
     enableStarRating();
+    updateAverageRating(getDocID());
 });

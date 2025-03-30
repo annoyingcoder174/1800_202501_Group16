@@ -47,7 +47,7 @@ function savePost() {
                 savePostIDforUser(doc.id);
                 console.log(doc.id);
                 uploadPic(doc.id);
-                
+
             })
         } else {
             // No user is signed in.
@@ -58,20 +58,25 @@ function savePost() {
 
 //--------------------------------------------
 //saves the post ID for the user, in an array
-//--------------------------------------------
 function savePostIDforUser(postDocID) {
     firebase.auth().onAuthStateChanged(user => {
-        console.log("user id is: " + user.uid);
-        console.log("postdoc id is: " + postDocID);
-        db.collection("users").doc(user.uid).update({
-            posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
-        })
-            .then(() => {
-                console.log("5. Saved to user's document!");
-                window.location.href = "main.html";
+        if (user) {
+            db.collection("users").doc(user.uid).update({
+                posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
             })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            });
-    })
+                .then(() => {
+                    console.log("5. Saved to user's document!");
+
+                    // ✅ Show success message
+                    alert("Your product has been posted!");
+
+                    // ✅ Redirect to main.html
+                    window.location.href = "main.html";
+                })
+                .catch(error => {
+                    console.error("Error writing document: ", error);
+                    alert("Something went wrong while saving your post.");
+                });
+        }
+    });
 }
