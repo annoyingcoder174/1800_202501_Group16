@@ -10,10 +10,12 @@ function getNameFromAuth() {
 }
 getNameFromAuth();
 
-// Display cards based on selected filters
-function displayCardsWithFilters(filters = {}) {
+// Display cards based on selected filters and search term
+function displayCardsWithFilters(filters = {}, searchTerm = "") {
     const container = document.getElementById("posts-go-here");
     const cardTemplate = document.getElementById("postsCardTemplate");
+
+    // Clear all previous cards before rendering new ones
     container.innerHTML = "";
 
     db.collection("posts").get().then(snapshot => {
@@ -21,17 +23,9 @@ function displayCardsWithFilters(filters = {}) {
             const data = doc.data();
             let match = true;
 
-            // Filter: Type
-            if (filters.types?.length && !filters.types.includes(data.category)) {
-                match = false;
-            }
-
-            // Filter: Location
-            if (filters.locations?.length && !filters.locations.includes(data.location)) {
-                match = false;
-            }
-
-            // Filter: Price Range
+            // Apply filters
+            if (filters.types?.length && !filters.types.includes(data.category)) match = false;
+            if (filters.locations?.length && !filters.locations.includes(data.location)) match = false;
             if (filters.prices?.length) {
                 const price = data.price || 0;
                 const priceMatch = filters.prices.some(range => {
@@ -41,10 +35,11 @@ function displayCardsWithFilters(filters = {}) {
                 if (!priceMatch) match = false;
             }
 
-            // Display card if all filters match
+            // Apply search
+            if (searchTerm && !data.name?.toLowerCase().includes(searchTerm)) match = false;
+
             if (match) {
                 const card = cardTemplate.content.cloneNode(true);
-
                 card.querySelector(".card-title").textContent = data.name || "Untitled";
                 card.querySelector(".card-text").textContent = data.details || "No description";
                 card.querySelector(".card-prescription").innerHTML = `
@@ -57,7 +52,6 @@ function displayCardsWithFilters(filters = {}) {
                     : "./images/placeholder.png";
                 card.querySelector("a").href = `posts.html?docID=${doc.id}`;
 
-                // ❤️ Like button setup
                 const likeBtn = card.querySelector(".like-btn");
                 if (likeBtn) {
                     likeBtn.setAttribute("data-doc-id", doc.id);
@@ -70,8 +64,9 @@ function displayCardsWithFilters(filters = {}) {
     });
 }
 
-// Collect selected filters from UI
-function applySelectedFilters() {
+
+// Collect selected filters from UI and apply search query
+function applySelectedFilters(searchQuery = "") {
     const types = Array.from(document.querySelectorAll(".filter-type:checked")).map(cb => cb.value);
     const prices = Array.from(document.querySelectorAll(".filter-price:checked")).map(cb => cb.value);
     const locations = Array.from(document.querySelectorAll(".filter-location:checked")).map(cb => cb.value);
@@ -82,7 +77,7 @@ function applySelectedFilters() {
         locations
     };
 
-    displayCardsWithFilters(filters);
+    displayCardsWithFilters(filters, searchQuery);
 }
 
 // Setup like button listener
@@ -144,15 +139,38 @@ function updateLikeCount(postID, element) {
 
 // On page load
 document.addEventListener("DOMContentLoaded", () => {
-    displayCardsWithFilters();
-
     const applyBtn = document.getElementById("applyFiltersBtn");
+    const searchInput = document.querySelector(".search-input");
+
+    function applySearchAndFilters() {
+        const types = Array.from(document.querySelectorAll(".filter-type:checked")).map(cb => cb.value);
+        const prices = Array.from(document.querySelectorAll(".filter-price:checked")).map(cb => cb.value);
+        const locations = Array.from(document.querySelectorAll(".filter-location:checked")).map(cb => cb.value);
+        const searchTerm = searchInput.value.trim().toLowerCase();
+
+        const filters = { types, prices, locations };
+        displayCardsWithFilters(filters, searchTerm);
+    }
+
+    // Button: Apply filters
     if (applyBtn) {
         applyBtn.addEventListener("click", () => {
-            applySelectedFilters();
+            applySearchAndFilters();
 
             const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("filterPanel"));
             if (offcanvas) offcanvas.hide();
         });
     }
+
+    // Input: Live search
+    if (searchInput) {
+        searchInput.addEventListener("input", () => {
+            applySearchAndFilters();
+        });
+    }
+
+    // Initial render
+    applySearchAndFilters();
 });
+
+
