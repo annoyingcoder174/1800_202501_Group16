@@ -15,10 +15,10 @@ firebase.auth().onAuthStateChanged(user => {
                 document.getElementById("profile-pic").src = userData.profilePic ||
                     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
 
-                // Load dynamic profile data
+                // Dynamic Stats
                 loadUserPosts(user.uid);
                 countUserReactions(user.uid);
-                calculateUserRating(user.uid);
+                calculateAveragePostRatings(user.uid);
             }
         }).catch(error => {
             console.error("Error fetching user data:", error);
@@ -50,10 +50,10 @@ function loadUserPosts(uid) {
             const postCard = document.createElement("div");
             postCard.className = "col-4 mb-2"; // Responsive 3x3 grid
             postCard.innerHTML = `
-          <a href="posts.html?docID=${doc.id}" class="text-decoration-none">
-            <img src="data:image/png;base64,${data.image}" class="img-fluid rounded" alt="Post Image" style="aspect-ratio: 1 / 1; object-fit: cover;" />
-          </a>
-        `;
+                <a href="posts.html?docID=${doc.id}" class="text-decoration-none">
+                    <img src="data:image/png;base64,${data.image}" class="img-fluid rounded" alt="Post Image" style="aspect-ratio: 1 / 1; object-fit: cover;" />
+                </a>
+            `;
             container.appendChild(postCard);
         });
     });
@@ -77,14 +77,30 @@ function countUserReactions(uid) {
     });
 }
 
-// ⭐ Calculate average rating from others
-function calculateUserRating(uid) {
-    db.collection("ratings").where("target", "==", uid).get().then(snapshot => {
-        const ratings = snapshot.docs.map(doc => doc.data().value);
-        const avg = ratings.length
-            ? (ratings.reduce((sum, r) => sum + r, 0) / ratings.length).toFixed(1)
-            : "0.0";
+// ⭐ Calculate average rating from all the user's posts
+function calculateAveragePostRatings(uid) {
+    db.collection("posts").where("owner", "==", uid).get().then(snapshot => {
+        const postDocs = snapshot.docs;
+        const ratingFetches = [];
 
-        document.getElementById("user-rating").textContent = avg;
+        postDocs.forEach(postDoc => {
+            const postID = postDoc.id;
+            const ratingsRef = db.collection("posts").doc(postID).collection("ratings");
+
+            const fetch = ratingsRef.get().then(ratingSnap => {
+                const ratings = ratingSnap.docs.map(doc => doc.data().rating);
+                return ratings;
+            });
+
+            ratingFetches.push(fetch);
+        });
+
+        Promise.all(ratingFetches).then(allRatingsArrays => {
+            const allRatings = allRatingsArrays.flat();
+            const average = allRatings.length
+                ? (allRatings.reduce((sum, r) => sum + r, 0) / allRatings.length).toFixed(1)
+                : "0.0";
+            document.getElementById("user-rating").textContent = average;
+        });
     });
 }

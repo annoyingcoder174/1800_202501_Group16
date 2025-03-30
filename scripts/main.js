@@ -25,7 +25,17 @@ function displayCardsWithFilters(filters = {}, searchTerm = "") {
 
             // Apply filters
             if (filters.types?.length && !filters.types.includes(data.category)) match = false;
-            if (filters.locations?.length && !filters.locations.includes(data.location)) match = false;
+            if (filters.locations?.length) {
+                const mainCities = ["Surrey", "Burnaby", "Vancouver"];
+                const isMainCity = mainCities.includes(data.location);
+                const includesOther = filters.locations.includes("Other");
+                const includesSpecific = filters.locations.includes(data.location);
+
+                if (!includesSpecific && !(includesOther && !isMainCity)) {
+                    match = false;
+                }
+            }
+
             if (filters.prices?.length) {
                 const price = data.price || 0;
                 const priceMatch = filters.prices.some(range => {
