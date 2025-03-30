@@ -1,16 +1,25 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-    /* Adjust based on your navbar height */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
     color: #333;
 }
 
-/* Navbar Styles */
+/* Navbar */
 .navbar {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f3e9db !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Georgia', serif;
+}
+
+.navbar-brand img {
+    filter: sepia(0.3);
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
 }
 
 .navbar-nav .nav-link {
@@ -23,15 +32,30 @@ body {
     color: #006666;
 }
 
-/* Hero Section Styles */
+/* Main Container */
 .container {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff7ec;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     padding: 2rem;
     margin-top: 2rem;
+    transition: background-color 0.3s ease;
+    animation: fadeIn 0.6s ease-out;
 }
 
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typography */
 .display-4 {
     color: #008080;
     font-weight: 700;
@@ -41,7 +65,7 @@ body {
     color: #555;
 }
 
-/* Form Styles */
+/* Forms */
 .form-control {
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -54,29 +78,31 @@ body {
     box-shadow: 0 0 5px rgba(0, 128, 128, 0.5);
 }
 
+/* Buttons */
 .btn-login {
     background-color: #008080 !important;
     border-color: #008080 !important;
+    color: #fffaf3;
     font-weight: 600;
     padding: 10px 20px;
     border-radius: 5px;
     transition: background-color 0.3s ease-in-out;
-    color: white;
     width: 100%;
 }
 
 .btn-login:hover {
     background-color: #006666 !important;
     border-color: #006666 !important;
-    color: white;
 }
 
-/* Footer Styles */
+/* Footer */
 .footer {
-    background-color: #ffffff;
+    background-color: #fff7ec;
     padding: 2rem 0;
     margin-top: 2rem;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    color: #666;
+    font-family: 'Georgia', serif;
 }
 
 .footer a i {
@@ -107,149 +133,139 @@ body {
     color: #006666;
 }
 
-/* Add this to your existing CSS */
-.logo-img {
-    width: 100px;
-    /* Adjust the size as needed */
-    height: 100px;
-    /* Adjust the size as needed */
-    border-radius: 50%;
-    /* Makes the image round */
-    object-fit: cover;
-    /* Ensures the image fits well within the circle */
-    margin-bottom: 1rem;
-    /* Adds some space below the logo */
-    border: 3px solid #008080;
-    /* Optional: Adds a border around the logo */
+/* Cards */
+.card {
+    background-color: #fffaf0;
+    border: 1px solid #d3cfc4;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
 
-    .display-4 {
-        font-size: 2rem;
-    }
-
-    .col-lg-10.fs-4 {
-        font-size: 1rem;
-    }
-
-    .footer a i {
-        font-size: 20px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-#navTop {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 0;
-    margin-bottom: 0;
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-#navTop .logo-img {
-    width: 3rem;
-    height: auto;
+.card-title {
+    font-family: 'Georgia', serif;
+    font-size: 1.25rem;
+    color: #005f5f;
 }
 
-/* Modal background (hidden by default) */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+.card-text,
+.card-prescription {
+    font-family: 'Georgia', serif;
+    font-size: 0.95rem;
+    color: #444;
 }
 
-.profile-avatar {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    aspect-ratio: 1 / 1;
-}
-
-.edit-profile-btn {
-    margin-top: 15px;
-    z-index: 1;
-}
-
-
-
-/* Modal content box */
-.modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    width: 50%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    text-align: center;
-}
-
-/* Modal background (hidden by default) */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Modal content box */
-.modal-content {
-    background-color: white;
-    margin: 15% auto;
-    padding: 20px;
-    width: 50%;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    text-align: center;
-}
-
-.search-input::-webkit-search-cancel-button {
-    display: none;
-}
-
+/* Search */
 .search-input {
+    border-radius: 20px;
+    font-family: 'Georgia', serif;
+    background-color: #fcf9f4;
+    border: 1px solid #ccc;
+    color: #333;
     padding-right: 2.5rem;
 }
 
-.bookmark-link {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: border 0.3s ease-in-out;
+.search-input::placeholder {
+    color: #aaa;
+    font-style: italic;
 }
 
-.bookmark-link:hover {
-    border: 1px solid rgb(0, 0, 0);
+.search-input:focus {
+    outline: none;
+    border-color: #008080;
+    box-shadow: 0 0 6px rgba(0, 128, 128, 0.3);
 }
 
-@media (max-width: 576px) {
-    .profile-avatar {
-        width: 100px;
-        height: 100px;
-    }
+/* Filter Button */
+#filterBtn {
+    background-color: #fffaf3;
+    border: 1px solid #ccc;
+    color: #555;
 }
 
-/* Comment like button styles */
+#filterBtn:hover {
+    background-color: #f3f3f3;
+    color: #000;
+}
+
+/* Filter Panel */
+.offcanvas {
+    background-color: #fff6eb;
+    font-family: 'Georgia', serif;
+    color: #222;
+    border-left: 1px solid #c2b8a3;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #d6cfc0;
+    padding-bottom: 0.5rem;
+}
+
+.offcanvas-title {
+    font-size: 1.4rem;
+    color: #004d4d;
+    font-weight: bold;
+}
+
+.offcanvas-body h6 {
+    font-size: 1.1rem;
+    color: #006666;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-check-label {
+    font-size: 1rem;
+    color: #2d2d2d;
+}
+
+.form-check-input {
+    accent-color: #007272;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#applyFiltersBtn {
+    background-color: #007272;
+    border: none;
+    color: #fffaf3;
+    font-family: 'Georgia', serif;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+#applyFiltersBtn:hover {
+    background-color: #005a5a;
+}
+
+/* Comments */
 .comment-like-btn {
     border: none;
     background: transparent;
     color: #6c757d;
-    /* neutral gray */
     font-size: 16px;
     transition: all 0.3s ease;
     display: inline-flex;
@@ -259,10 +275,132 @@ body {
 
 .comment-like-btn:hover {
     color: #0d6efd;
-    /* Bootstrap primary blue */
     transform: scale(1.05);
 }
 
 .comment-like-btn.liked {
     color: #0d6efd;
+    animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Profile Section Enhancements */
+.profile-card {
+    background-color: #fff7ec;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.profile-avatar {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.stats-bar {
+    background-color: #f3e8d9;
+    border-top: 1px solid #e0d6c3;
+    border-bottom: 1px solid #e0d6c3;
+}
+
+.about-box {
+    background-color: #f6ede0;
+    border-left: 4px solid #008080;
+    border-radius: 6px;
+    color: #444;
+    font-family: 'Georgia', serif;
+}
+
+/* Edit button inside profile */
+.profile-card .btn-outline-light {
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 5px 16px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-card .btn-outline-light:hover {
+    background-color: #ffffff22;
+    color: #f9f9f9;
+}
+
+/* Bookmarks link styling */
+.bookmark-link {
+    border: 1px solid #ccc;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    font-size: 0.875rem;
+    background-color: #fef6e8;
+    color: #008080;
+}
+
+.bookmark-link:hover {
+    background-color: #008080;
+    color: white;
+    border-color: #007070;
+    transform: scale(1.03);
+}
+
+/* Text Teal Accent */
+.text-teal {
+    color: #007070;
+}
+
+/* Smooth load animation for profile card */
+.profile-card {
+    animation: fadeSlideIn 0.5s ease;
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit-profile-btn {
+    position: absolute;
+    top: 230px;
+    left: 40px;
+    z-index: 10;
+    background-color: #fffaf3;
+    border: 1px solid #ccc;
+    color: #004d4d;
+    font-family: 'Georgia', serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+
+.edit-profile-btn:hover {
+    background-color: #f3e9db;
+    color: #002f2f;
+    transform: scale(1.02);
 }
