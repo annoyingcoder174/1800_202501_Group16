@@ -1,49 +1,71 @@
 firebase.auth().onAuthStateChanged(currentUser => {
-    if (!currentUser) return;
+  if (!currentUser) return;
 
-    const messageList = document.getElementById("message-list");
-    const currentUID = currentUser.uid;
+  const currentUID = currentUser.uid;
+  const messageList = document.getElementById("message-list");
+  messageList.innerHTML = "";
 
-    db.collection("messages").get().then(snapshot => {
-        snapshot.forEach(doc => {
-            const chatRoomId = doc.id;
+  db.collection("messages").get().then(snapshot => {
+    if (snapshot.empty) {
+      messageList.innerHTML = "<p class='text-muted'>No conversations yet.</p>";
+      return;
+    }
 
-            // Check if current user is involved in this chat
-            if (!chatRoomId.includes(currentUID)) return;
+    const chatPromises = [];
 
-            // Get partner UID
-            const [uid1, uid2] = chatRoomId.split("_");
-            const partnerId = uid1 === currentUID ? uid2 : uid1;
+    snapshot.forEach(doc => {
+      const chatRoomId = doc.id;
 
-            // Fetch partner info
-            db.collection("users").doc(partnerId).get().then(userDoc => {
-                if (!userDoc.exists) return;
+      if (!chatRoomId.includes(currentUID)) return;
 
-                const userData = userDoc.data();
-                const name = userData.name || "Unknown User";
+      const [uid1, uid2] = chatRoomId.split("_");
+      const partnerId = uid1 === currentUID ? uid2 : uid1;
 
-                // Display chat preview
-                const div = document.createElement("div");
-                div.className = "col-12 mb-3";
-                div.innerHTML = `
-            <div class="card py-3 px-4">
-              <a href="chat.html?userId=${partnerId}&userName=${encodeURIComponent(name)}" class="text-dark text-decoration-none">
-                <div class="d-flex justify-content-between align-items-center">
-                  <strong>${name}</strong>
-                  <small>Tap to chat</small>
-                </div>
-              </a>
-            </div>
-          `;
-                messageList.appendChild(div);
-            });
+      const chatPromise = db
+        .collection("messages")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("timestamp", "desc")
+        .limit(1)
+        .get()
+        .then(chatSnapshot => {
+          if (chatSnapshot.empty) return;
+
+          const lastMessage = chatSnapshot.docs[0].data();
+          const text = lastMessage.text || "[No message]";
+          const time = lastMessage.timestamp?.toDate();
+          const timeLabel = time
+            ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            : "";
+
+          return db.collection("users").doc(partnerId).get().then(userDoc => {
+            if (!userDoc.exists) return;
+
+            const user = userDoc.data();
+            const userName = user.name || "Unknown User";
+
+            const chatItem = document.createElement("a");
+            chatItem.href = `chat.html?userId=${partnerId}&userName=${encodeURIComponent(userName)}`;
+            chatItem.className = "d-block text-decoration-none text-dark border-bottom p-3";
+
+            chatItem.innerHTML = `
+              <div class="d-flex justify-content-between align-items-center">
+                <strong>${userName}</strong>
+                <small class="text-muted">${timeLabel}</small>
+              </div>
+              <div class="text-muted text-truncate">${text}</div>
+            `;
+
+            messageList.appendChild(chatItem);
+          });
         });
 
-        if (snapshot.empty) {
-            messageList.innerHTML = "<p class='text-muted'>No recent conversations.</p>";
-        }
-    }).catch(error => {
-        console.error("Error fetching messages:", error);
-        messageList.innerHTML = `<p class="text-danger">Error loading conversations.</p>`;
+      chatPromises.push(chatPromise);
     });
+
+    return Promise.all(chatPromises);
+  }).catch(error => {
+    console.error("Error loading messages:", error);
+    messageList.innerHTML = `<p class="text-danger">Failed to load messages.</p>`;
+  });
 });
