@@ -7,32 +7,38 @@ function fetchUsers() {
   db.collection("users").get().then(snapshot => {
     snapshot.forEach(doc => {
       const user = doc.data();
-      const userId = doc.id; // Get user ID
+      const userId = doc.id;
 
-      // Clone the template
       const userCard = userCardTemplate.content.cloneNode(true);
 
-      // User details
-      userCard.querySelector(".profile-pic").src = user.profilePicture || 
-      "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
-      userCard.querySelector(".user-name").textContent = user.name;
-      userCard.querySelector(".user-posts").textContent = user.posts || "0";
-      userCard.querySelector(".user-sold").textContent = user.sold || "0";
-      userCard.querySelector(".user-rating").textContent = user.rating || "0.0";
+      // Profile picture
+      const profileImg = userCard.querySelector(".profile-pic");
+      if (user.profilePicture) {
+        profileImg.src = user.profilePicture;
+      } else {
+        profileImg.style.display = "none"; // Hide if not available
+      }
 
-      // Add event listener for profile view
+      // Name
+      userCard.querySelector(".user-name").textContent = user.name || "Unnamed";
+
+      // Hide stats block (Posts, Reactions, Rating)
+      const statsBlock = userCard.querySelector(".user-stats");
+      if (statsBlock) statsBlock.style.display = "none";
+
+      // View profile button
       const viewButton = userCard.querySelector(".view-profile");
       viewButton.setAttribute("data-user-id", userId);
-      viewButton.addEventListener("click", function () {
-        window.location.href = `eachUser.html?userId=${userId}`; // Redirect to profile
+      viewButton.addEventListener("click", () => {
+        window.location.href = `eachUser.html?userId=${userId}`;
       });
 
-      // Append to user list
       userListContainer.appendChild(userCard);
     });
-  }).catch(error => console.error("Error fetching users: ", error));
+  }).catch(error => {
+    console.error("Error fetching users: ", error);
+  });
 }
 
 // Fetch users on page load
 fetchUsers();
-

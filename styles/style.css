@@ -404,3 +404,179 @@ body {
     color: #002f2f;
     transform: scale(1.02);
 }
+
+/* Product Details Block (Vintage Style) */
+#product-detail {
+    background-color: #fdf6ec;
+    /* Soft warm background */
+    border: 1px solid #d3cfc4;
+    border-radius: 10px;
+    font-family: 'Georgia', serif;
+    padding: 1.5rem;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+#product-detail h4 {
+    color: #005f5f;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+#product-detail p {
+    font-size: 0.95rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+}
+
+/* Vintage Highlight on Details Panel Hover */
+#product-detail:hover {
+    background-color: #f8f1e3;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.toast-custom {
+    background-color: #008080;
+    color: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 3s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 0.95;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+#chat-box {
+    background-color: #fffaf0;
+    border-radius: 10px;
+}
+
+#chat-box div {
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+form input:focus {
+    box-shadow: none;
+}
+
+/* ---------------- User Page Vintage Style ---------------- */
+#user-list-container {
+    padding: 2rem 1rem;
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
+}
+
+/* User Card Section */
+#user-card-template section {
+    padding-bottom: 1.5rem;
+}
+
+/* User Card */
+#user-card-template .card {
+    background-color: #fffaf3;
+    border: 1px solid #d3cfc4;
+    border-radius: 15px;
+    box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#user-card-template .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Body */
+#user-card-template .card-body {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Vintage Styling for User Cards */
+#user-list-container {
+    padding: 2rem 1rem;
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
+}
+
+/* User Card */
+.card {
+    background-color: #fffaf3;
+    border: 1px solid #d3cfc4;
+    border-radius: 15px;
+    box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 3px 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* User Avatar */
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #fcf9f4;
+    border: 2px solid #c9c0b6;
+}
+
+/* Name */
+.user-name {
+    font-family: 'Georgia', serif;
+    font-size: 1.25rem;
+    color: #004d4d;
+    margin-bottom: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+    font-family: 'Georgia', serif;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary {
+    border-color: #008080;
+    color: #008080;
+}
+
+.btn-outline-primary:hover {
+    background-color: #008080;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #008080;
+    border-color: #006666;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #006666;
+    border-color: #005f5f;
+}

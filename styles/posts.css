@@ -345,3 +345,82 @@ body {
     background: #eee;
     color: #004d4d;
 }
+
+/* Comments and Replies Section */
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 12px;
+    border: 2px solid #d3cfc4;
+    background-color: #fffaf3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-header h6 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #004d4d;
+}
+
+.comment-header small {
+    display: block;
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.comment-card {
+    background-color: #fffdf7;
+    border: 1px solid #e2dcd0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.4s ease-in-out;
+}
+
+.reply-box {
+    background-color: #fcf6ea;
+    border-left: 3px solid #d3cfc4;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Replies inside comments */
+.reply-box strong {
+    color: #006666;
+}
+
+.reply-box small {
+    color: #888;
+    font-size: 0.75rem;
+}
+
+.reply-input {
+    border-radius: 6px;
+    font-family: 'Georgia', serif;
+    background-color: #fff9f3;
+    border: 1px solid #ccc;
+}
+
+.submit-reply {
+    font-family: 'Georgia', serif;
+    font-weight: 600;
+    background-color: #008080;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.submit-reply:hover {
+    background-color: #006666;
+}

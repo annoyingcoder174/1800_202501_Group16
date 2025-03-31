@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>EyeCycle</title>
+  <title>EyeCycle - Users</title>
   <meta name="eyecycle" content="eyecycle" />
 
   <!-- Required meta tags -->
@@ -37,9 +37,35 @@
 
   <!-- Link to styles of your own -->
   <link rel="stylesheet" href="./styles/style.css" />
+  <link rel="icon" type="image/png" href="./images/EyeCycleLogo.png" />
 </head>
 
 <body>
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="main.html">
+        <img src="./images/EyeCycleLogo.png" alt="EyeCycle Logo" height="40" />
+      </a>
+
+      <!-- Search Bar + Filter -->
+      <form class="d-flex mx-auto align-items-center position-relative" style="width: 70%">
+        <!-- Search input -->
+        <input id="searchInput" class="form-control rounded-pill ps-4 pe-5 search-input" type="search"
+          placeholder="Search">
+        <!-- Search button inside the input field -->
+        <button class="btn position-absolute end-0 me-4" type="submit" style="z-index: 2;">
+          <i class="fas fa-search text-muted"></i>
+        </button>
+      </form>
+
+      <!-- Filter button placed outside the form -->
+      <button class="btn btn-outline-secondary rounded-circle ms-3" id="filterBtn" title="Filter" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#filterPanel">
+        <i class="fas fa-filter"></i>
+      </button>
+    </div>
+  </nav>
   <div id="user-list-container"></div>
 
   <!-- User Card Template (Hidden) -->
@@ -53,20 +79,6 @@
             </div>
             <div class="flex-grow-1 ms-3">
               <h5 class="user-name mb-1"></h5>
-              <div class="d-flex justify-content-start rounded-3 p-2 mb-2 bg-body-tertiary">
-                <div>
-                  <p class="small text-muted mb-1">Posts</p>
-                  <p class="mb-0 user-posts">0</p>
-                </div>
-                <div class="px-3">
-                  <p class="small text-muted mb-1">Sold</p>
-                  <p class="mb-0 user-sold">0</p>
-                </div>
-                <div>
-                  <p class="small text-muted mb-1">Rating</p>
-                  <p class="mb-0 user-rating">0.0</p>
-                </div>
-              </div>
               <div class="d-flex pt-1">
                 <button class="btn btn-outline-primary me-1 flex-grow-1">
                   Review
@@ -83,31 +95,13 @@
   </template>
 
   <!-- Bottom nav bar -->
-  <nav class="navbar fixed-bottom justify-content-center navbar-expand-lg navbar-light bg-light">
-    <div id="navbarNav">
-      <ul class="navbar-nav d-flex flex-row">
-        <li class="nav-item mx-3">
-          <a class="nav-link" aria-current="page" href="main.html">Home</a>
-        </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="saved.html">Bookmarks</a>
-        </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="#">Add post</a>
-        </li>
-        <li class="nav-item mx-3">
-          <a class="nav-link" href="profile.html">Profile</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <!-- Bottom nav bar -->
+  <nav id="navbarPlaceholder"></nav>
 
-  <!---------------------------------------------->
-  <!-- Your own JavaScript functions go here    -->
-  <!---------------------------------------------->
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="./scripts/firebaseAPI_4eyes.js"></script>
   <script src="./scripts/authentication.js"></script>
+  <script src="./scripts/skeleton.js"></script>
   <script src="./scripts/users.js"></script>
 </body>
 

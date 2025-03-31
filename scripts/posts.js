@@ -70,7 +70,7 @@ function addToCart(postID, product) {
             price: parseFloat(product.price || 0),
             image: product.image || "",
             addedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => alert("Product added to cart!"));
+        }).then(() => showToast("Product added to cart!"));
     });
 }
 
@@ -154,36 +154,57 @@ function loadComments(postID) {
 
     db.collection("posts").doc(postID).collection("comments")
         .orderBy("timestamp", "desc")
-        .get().then(snapshot => {
+        .get()
+        .then(snapshot => {
             snapshot.forEach(doc => {
                 const comment = doc.data();
                 const time = comment.timestamp?.toDate().toLocaleString() || "Unknown";
+
                 const card = document.createElement("div");
                 card.className = "card mb-2";
-                card.innerHTML = `
-                  <div class="card-body">
-                    <h6 class="card-subtitle mb-1 text-muted">${comment.userName} <small>${time}</small></h6>
-                    <p class="card-text">${comment.text}</p>
-                    <div class="d-flex gap-2 align-items-center">
-                      <button class="btn btn-sm btn-outline-secondary like-comment-btn" data-id="${doc.id}">
-                        <i class="fa-regular fa-thumbs-up"></i> <span class="like-count">0</span>
-                      </button>
-                      <button class="btn btn-sm btn-outline-primary reply-btn" data-id="${doc.id}">Reply</button>
-                    </div>
-                    <div class="replies mt-2" id="replies-${doc.id}"></div>
-                    <div class="reply-form mt-2" style="display:none;">
-                      <input type="text" class="form-control form-control-sm reply-input" placeholder="Write a reply..." />
-                      <button class="btn btn-sm btn-primary mt-1 submit-reply" data-id="${doc.id}">Post Reply</button>
-                    </div>
+
+                // Fetch latest user name & avatar from their profile
+                db.collection("users").doc(comment.userID).get().then(userDoc => {
+                    const userName = userDoc.exists ? userDoc.data().name || "User" : "User";
+                    const avatar = userDoc.exists && userDoc.data().profilePic
+                        ? userDoc.data().profilePic
+                        : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
+
+                    card.innerHTML = `
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <img src="${avatar}" alt="Avatar" class="comment-avatar">
+                  <div>
+                    <h6 class="card-subtitle mb-0 text-muted">${userName}</h6>
+                    <small class="text-muted">${time}</small>
                   </div>
-                `;
-                section.appendChild(card);
-                setupLikeComment(postID, doc.id, card.querySelector(".like-comment-btn"));
-                setupReplyFeature(postID, doc.id, card);
-                loadReplies(postID, doc.id);
+                </div>
+                <p class="card-text">${comment.text}</p>
+                <div class="d-flex gap-2 align-items-center">
+                  <button class="btn btn-sm btn-outline-secondary like-comment-btn" data-id="${doc.id}">
+                    <i class="fa-regular fa-thumbs-up"></i> <span class="like-count">0</span>
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary reply-btn" data-id="${doc.id}">Reply</button>
+                </div>
+                <div class="replies mt-2" id="replies-${doc.id}"></div>
+                <div class="reply-form mt-2" style="display:none;">
+                  <input type="text" class="form-control form-control-sm reply-input" placeholder="Write a reply..." />
+                  <button class="btn btn-sm btn-primary mt-1 submit-reply" data-id="${doc.id}">Post Reply</button>
+                </div>
+              </div>
+            `;
+
+                    section.appendChild(card);
+
+                    setupLikeComment(postID, doc.id, card.querySelector(".like-comment-btn"));
+                    setupReplyFeature(postID, doc.id, card);
+                    loadReplies(postID, doc.id);
+                });
             });
         });
 }
+
+
 
 function setupLikeComment(postID, commentID, btn) {
     const icon = btn.querySelector("i");
@@ -291,3 +312,13 @@ document.addEventListener("DOMContentLoaded", () => {
         submitComment(postID);
     });
 });
+function showToast(message) {
+    const toastElement = document.getElementById("custom-toast");
+    const toastBody = toastElement.querySelector(".toast-body");
+    toastBody.textContent = message;
+
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
+
+
