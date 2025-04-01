@@ -34,9 +34,6 @@ firebase.auth().onAuthStateChanged(user => {
             <div>
               <h6 class="mb-1">${item.name}</h6>
               <div class="d-flex align-items-center">
-                <button class="btn btn-sm btn-outline-secondary decrease">−</button>
-                <span class="mx-2">${quantity}</span>
-                <button class="btn btn-sm btn-outline-secondary increase">+</button>
               </div>
             </div>
           </div>
