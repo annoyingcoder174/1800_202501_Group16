@@ -580,3 +580,17 @@ form input:focus {
     background-color: #006666;
     border-color: #005f5f;
 }
+
+.logo-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: #fcf9f4;
+    border: 2px solid #c9c0b6;
+}
+
+.subtitle {
+    color: #005f5f;
+    margin-bottom: 0.5rem;
+}
