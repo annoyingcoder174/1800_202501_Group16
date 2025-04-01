@@ -35,17 +35,33 @@ function displayGlassInfo() {
 }
 
 // Bookmark logic
-function toggleBookmark(postID) {
+function toggleBookmark() {
     firebase.auth().onAuthStateChanged(user => {
-        if (!user) return alert("Please log in to bookmark.");
-        const ref = db.collection("users").doc(user.uid).collection("bookmarks").doc(postID);
-        ref.get().then(doc => {
+        if (!user) {
+            alert("Please sign in to bookmark posts");
+            return;
+        }
+
+        const bookmarkRef = db.collection("users").doc(user.uid).collection("bookmarks").doc(ID);
+        const bookmarkBtn = document.querySelector(".bookmark-btn i");
+
+        bookmarkRef.get().then(doc => {
             if (doc.exists) {
-                ref.delete();
-                document.getElementById("bookmark-btn").innerHTML = "<i class='fa-regular fa-bookmark'></i>";
+                // Remove bookmark
+                bookmarkRef.delete().then(() => {
+                    bookmarkBtn.classList.remove("fa-solid");
+                    bookmarkBtn.classList.add("fa-regular");
+                    showToast("Post removed from bookmarks");
+                });
             } else {
-                ref.set({ bookmarkedAt: firebase.firestore.FieldValue.serverTimestamp() });
-                document.getElementById("bookmark-btn").innerHTML = "<i class='fa-solid fa-bookmark'></i>";
+                // Add bookmark
+                bookmarkRef.set({
+                    savedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    bookmarkBtn.classList.remove("fa-regular");
+                    bookmarkBtn.classList.add("fa-solid");
+                    showToast("Post saved to bookmarks");
+                });
             }
         });
     });
@@ -204,8 +220,6 @@ function loadComments(postID) {
         });
 }
 
-
-
 function setupLikeComment(postID, commentID, btn) {
     const icon = btn.querySelector("i");
     const countSpan = btn.querySelector(".like-count");
@@ -312,13 +326,49 @@ document.addEventListener("DOMContentLoaded", () => {
         submitComment(postID);
     });
 });
-function showToast(message) {
-    const toastElement = document.getElementById("custom-toast");
-    const toastBody = toastElement.querySelector(".toast-body");
-    toastBody.textContent = message;
 
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
+
+// Check if post is bookmarked
+function checkBookmarkStatus() {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            const bookmarkRef = db.collection("users").doc(user.uid).collection("bookmarks").doc(ID);
+            const bookmarkBtn = document.querySelector(".bookmark-btn i");
+
+            bookmarkRef.get().then(doc => {
+                if (doc.exists) {
+                    bookmarkBtn.classList.remove("fa-regular");
+                    bookmarkBtn.classList.add("fa-solid");
+                }
+            });
+        }
+    });
+}
+
+// Contact seller
+function contactSeller() {
+    const sellerID = document.querySelector("[data-owner-id]").getAttribute("data-owner-id");
+    window.location.href = `message.html?userId=${sellerID}`;
+}
+
+// Initialize post details
+function initializePost() {
+    displayGlassInfo();
+    checkBookmarkStatus();
+    setupComments();
+}
+
+// Call initialization when DOM is loaded
+document.addEventListener("DOMContentLoaded", initializePost);
 
 
