@@ -21,7 +21,7 @@ var uiConfig = {
                    name: user.displayName,                    //"users" collection
                    email: user.email,                         //with authenticated user's ID (user.uid)
                    location: "",                      //optional default profile info      
-                   posts: ""                      //optional default profile info
+                   posts: []                      //changed from empty string to empty array for posts
             }).then(function () {
                    console.log("New user added to firestore");
                    window.location.assign("main.html");       //re-direct to main.html after signup
@@ -43,12 +43,16 @@ var uiConfig = {
     signInFlow: 'popup',
     signInSuccessUrl: "main.html",
     signInOptions: [
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      {
+        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        requireDisplayName: true,
+        signInMethod: firebase.auth.EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD,
+      }
     ],
     // Terms of service url.
-    tosUrl: '<your-tos-url>',
+    tosUrl: '#',
     // Privacy policy url.
-    privacyPolicyUrl: '<your-privacy-policy-url>'
+    privacyPolicyUrl: '#'
   };
 
   ui.start('#firebaseui-auth-container', uiConfig);
