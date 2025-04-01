@@ -33,8 +33,6 @@ firebase.auth().onAuthStateChanged(user => {
             <img src="data:image/png;base64,${item.image}" alt="${item.name}" width="80" class="me-3 rounded" />
             <div>
               <h6 class="mb-1">${item.name}</h6>
-              <div class="d-flex align-items-center">
-              </div>
             </div>
           </div>
         `;
@@ -45,20 +43,20 @@ firebase.auth().onAuthStateChanged(user => {
         });
 
         // Quantity increment
-        card.querySelector(".increase").addEventListener("click", () => {
-          cartRef.doc(doc.id).update({
-            quantity: firebase.firestore.FieldValue.increment(1)
-          });
-        });
+        // card.querySelector(".increase").addEventListener("click", () => {
+        //   cartRef.doc(doc.id).update({
+        //     quantity: firebase.firestore.FieldValue.increment(1)
+        //   });
+        // });
 
-        // Quantity decrement (min 1)
-        card.querySelector(".decrease").addEventListener("click", () => {
-          if (quantity > 1) {
-            cartRef.doc(doc.id).update({
-              quantity: firebase.firestore.FieldValue.increment(-1)
-            });
-          }
-        });
+        // // Quantity decrement (min 1)
+        // card.querySelector(".decrease").addEventListener("click", () => {
+        //   if (quantity > 1) {
+        //     cartRef.doc(doc.id).update({
+        //       quantity: firebase.firestore.FieldValue.increment(-1)
+        //     });
+        //   }
+        // });
 
         // Remove item
         card.querySelector(".remove-btn").addEventListener("click", () => {
