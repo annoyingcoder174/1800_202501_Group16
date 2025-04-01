@@ -18,60 +18,63 @@ function displayCardsWithFilters(filters = {}, searchTerm = "") {
     // Clear all previous cards before rendering new ones
     container.innerHTML = "";
 
-    db.collection("posts").get().then(snapshot => {
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            let match = true;
+    db.collection("posts")
+        .orderBy("timestamp", "desc") // Sort by timestamp in descending order (newest first)
+        .get()
+        .then(snapshot => {
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                let match = true;
 
-            // Apply filters
-            if (filters.types?.length && !filters.types.includes(data.category)) match = false;
-            if (filters.locations?.length) {
-                const mainCities = ["Surrey", "Burnaby", "Vancouver"];
-                const isMainCity = mainCities.includes(data.location);
-                const includesOther = filters.locations.includes("Other");
-                const includesSpecific = filters.locations.includes(data.location);
+                // Apply filters
+                if (filters.types?.length && !filters.types.includes(data.category)) match = false;
+                if (filters.locations?.length) {
+                    const mainCities = ["Surrey", "Burnaby", "Vancouver"];
+                    const isMainCity = mainCities.includes(data.location);
+                    const includesOther = filters.locations.includes("Other");
+                    const includesSpecific = filters.locations.includes(data.location);
 
-                if (!includesSpecific && !(includesOther && !isMainCity)) {
-                    match = false;
-                }
-            }
-
-            if (filters.prices?.length) {
-                const price = data.price || 0;
-                const priceMatch = filters.prices.some(range => {
-                    const [min, max] = range.split("-").map(Number);
-                    return price >= min && price <= max;
-                });
-                if (!priceMatch) match = false;
-            }
-
-            // Apply search
-            if (searchTerm && !data.name?.toLowerCase().includes(searchTerm)) match = false;
-
-            if (match) {
-                const card = cardTemplate.content.cloneNode(true);
-                card.querySelector(".card-title").textContent = data.name || "Untitled";
-                card.querySelector(".card-text").textContent = data.details || "No description";
-                card.querySelector(".card-prescription").innerHTML = `
-                    Prescription: ${data.prescription ?? "N/A"}<br>
-                    Location: ${data.location || "Unknown"}<br>
-                    Last updated: ${data.last_updated?.toDate().toLocaleDateString() || "Unknown"}
-                `;
-                card.querySelector(".card-image").src = data.image
-                    ? "data:image/png;base64," + data.image
-                    : "./images/placeholder.png";
-                card.querySelector("a").href = `posts.html?docID=${doc.id}`;
-
-                const likeBtn = card.querySelector(".like-btn");
-                if (likeBtn) {
-                    likeBtn.setAttribute("data-doc-id", doc.id);
-                    setupLikeListener(likeBtn, doc.id);
+                    if (!includesSpecific && !(includesOther && !isMainCity)) {
+                        match = false;
+                    }
                 }
 
-                container.appendChild(card);
-            }
+                if (filters.prices?.length) {
+                    const price = data.price || 0;
+                    const priceMatch = filters.prices.some(range => {
+                        const [min, max] = range.split("-").map(Number);
+                        return price >= min && price <= max;
+                    });
+                    if (!priceMatch) match = false;
+                }
+
+                // Apply search
+                if (searchTerm && !data.name?.toLowerCase().includes(searchTerm)) match = false;
+
+                if (match) {
+                    const card = cardTemplate.content.cloneNode(true);
+                    card.querySelector(".card-title").textContent = data.name || "Untitled";
+                    card.querySelector(".card-text").textContent = data.details || "No description";
+                    card.querySelector(".card-prescription").innerHTML = `
+                        Prescription: ${data.prescription ?? "N/A"}<br>
+                        Location: ${data.location || "Unknown"}<br>
+                        Last updated: ${data.last_updated?.toDate().toLocaleDateString() || "Unknown"}
+                    `;
+                    card.querySelector(".card-image").src = data.image
+                        ? "data:image/png;base64," + data.image
+                        : "./images/placeholder.png";
+                    card.querySelector("a").href = `posts.html?docID=${doc.id}`;
+
+                    const likeBtn = card.querySelector(".like-btn");
+                    if (likeBtn) {
+                        likeBtn.setAttribute("data-doc-id", doc.id);
+                        setupLikeListener(likeBtn, doc.id);
+                    }
+
+                    container.appendChild(card);
+                }
+            });
         });
-    });
 }
 
 
