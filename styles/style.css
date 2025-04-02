@@ -1,37 +1,20 @@
-/* Color Variables */
-:root {
-    --primary-teal: #008080;
-    --primary-teal-dark: #006666;
-    --primary-teal-light: #00a0a0;
-    --primary-blue: #0d6efd;
-    --primary-blue-dark: #0b5ed7;
-    --primary-blue-light: #0dcaf0;
-    --text-dark: #333;
-    --text-light: #666;
-    --background-light: #f8f9fa;
-    --background-white: #ffffff;
-    --border-color: #e0e0e0;
-    --success-green: #28a745;
-}
-
 /* General Styles */
 body {
     padding-bottom: 60px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-white);
-    color: var(--text-dark);
-    padding-top: 56px;
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
+    color: #333;
 }
 
 /* Navbar */
 .navbar {
-    background-color: var(--background-white) !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f3e9db !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     font-family: 'Georgia', serif;
 }
 
 .navbar-brand img {
-    filter: none;
+    filter: sepia(0.3);
     transition: transform 0.3s ease;
 }
 
@@ -40,29 +23,18 @@ body {
 }
 
 .navbar-nav .nav-link {
-    color: var(--primary-teal) !important;
+    color: #008080;
     font-weight: 500;
-    transition: all 0.3s ease-in-out;
-    opacity: 0.9;
+    transition: color 0.3s ease-in-out;
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--primary-teal-dark) !important;
-    opacity: 1;
-    transform: translateY(-1px);
-}
-
-.navbar-toggler {
-    border-color: var(--primary-teal);
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23008080' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    color: #006666;
 }
 
 /* Main Container */
 .container {
-    background-color: var(--background-white);
+    background-color: #fff7ec;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     padding: 2rem;
@@ -163,11 +135,11 @@ body {
 
 /* Cards */
 .card {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fffaf0;
+    border: 1px solid #d3cfc4;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
 }
@@ -189,34 +161,10 @@ body {
     box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.card-image {
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-    margin: 8px;
-    width: calc(100% - 16px);
-    height: 200px;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 1rem;
-}
-
 .card-title {
     font-family: 'Georgia', serif;
     font-size: 1.25rem;
     color: #005f5f;
-}
-
-.price-display {
-    margin-top: 4px;
-}
-
-.price-amount {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--primary-teal);
-    font-family: 'Georgia', serif;
 }
 
 .card-text,
@@ -226,11 +174,11 @@ body {
     color: #444;
 }
 
-/* Search Bar Styles */
+/* Search */
 .search-input {
     border-radius: 20px;
     font-family: 'Georgia', serif;
-    background-color: var(--background-light);
+    background-color: #fcf9f4;
     border: 1px solid #ccc;
     color: #333;
     padding-right: 2.5rem;
@@ -247,37 +195,31 @@ body {
     box-shadow: 0 0 6px rgba(0, 128, 128, 0.3);
 }
 
-/* Search Button */
-.search-input + .btn {
-    color: var(--primary-teal);
-    transition: all 0.3s ease;
-}
-
-.search-input + .btn:hover {
-    color: var(--primary-teal-dark);
-    transform: scale(1.05);
-}
-
-/* Filter Button */
+/* Filter Button – Matches Navbar Color */
 #filterBtn {
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--primary-teal);
+    background-color: #f3e9db;
+    /* Same as navbar */
+    border: 1px solid #d6cfc0;
+    color: #004d4d;
+    font-family: 'Georgia', serif;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 #filterBtn:hover {
-    background-color: white;
-    transform: scale(1.05);
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    background-color: #e7d8c5;
+    color: #002f2f;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
+
 
 /* Filter Panel */
 .offcanvas {
-    background-color: var(--background-white);
+    background-color: #fff6eb;
     font-family: 'Georgia', serif;
     color: #222;
-    border-left: 1px solid var(--border-color);
+    border-left: 1px solid #c2b8a3;
 }
 
 .offcanvas-header {
@@ -364,7 +306,7 @@ body {
 
 /* Profile Section Enhancements */
 .profile-card {
-    background-color: var(--background-white);
+    background-color: #fff7ec;
     border: none;
     border-radius: 14px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
@@ -382,13 +324,13 @@ body {
 }
 
 .stats-bar {
-    background-color: var(--background-light);
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    background-color: #f3e8d9;
+    border-top: 1px solid #e0d6c3;
+    border-bottom: 1px solid #e0d6c3;
 }
 
 .about-box {
-    background-color: var(--background-light);
+    background-color: #f6ede0;
     border-left: 4px solid #008080;
     border-radius: 6px;
     color: #444;
@@ -472,9 +414,9 @@ body {
 
 /* Product Details Block (Vintage Style) */
 #product-detail {
-    background-color: var(--background-white);
+    background-color: #fdf6ec;
     /* Soft warm background */
-    border: 1px solid var(--border-color);
+    border: 1px solid #d3cfc4;
     border-radius: 10px;
     font-family: 'Georgia', serif;
     padding: 1.5rem;
@@ -498,7 +440,7 @@ body {
 
 /* Vintage Highlight on Details Panel Hover */
 #product-detail:hover {
-    background-color: var(--background-light);
+    background-color: #f8f1e3;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
@@ -533,7 +475,7 @@ body {
 }
 
 #chat-box {
-    background-color: var(--background-white);
+    background-color: #fffaf0;
     border-radius: 10px;
 }
 
@@ -549,7 +491,7 @@ form input:focus {
 /* ---------------- User Page Vintage Style ---------------- */
 #user-list-container {
     padding: 2rem 1rem;
-    background: var(--background-white);
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
 }
 
 /* User Card Section */
@@ -559,8 +501,8 @@ form input:focus {
 
 /* User Card */
 #user-card-template .card {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
+    background-color: #fffaf3;
+    border: 1px solid #d3cfc4;
     border-radius: 15px;
     box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -581,13 +523,13 @@ form input:focus {
 /* Vintage Styling for User Cards */
 #user-list-container {
     padding: 2rem 1rem;
-    background: var(--background-white);
+    background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
 }
 
 /* User Card */
 .card {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
+    background-color: #fffaf3;
+    border: 1px solid #d3cfc4;
     border-radius: 15px;
     box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.3s ease;
@@ -646,107 +588,11 @@ form input:focus {
     border-color: #005f5f;
 }
 
-.logo-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-    background-color: #fcf9f4;
-    border: 2px solid #c9c0b6;
-}
+/* ===================== */
+/* View / Bookmark / Like Buttons - Vintage Enhancements */
+/* ===================== */
 
-.subtitle {
-    color: #005f5f;
-    margin-bottom: 0.5rem;
-}
-
-/* Toast Message Styles */
-.toast-message {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    z-index: 1000;
-    animation: fadeInOut 3s ease-in-out;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
-}
-
-/* Button hover effects */
-.bookmark-btn:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease;
-}
-
-.bookmark-btn .fa-solid {
-    color: #0d6efd;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 12px 0;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.user-profile-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--text-dark);
-    transition: color 0.2s ease;
-}
-
-.user-profile-link:hover {
-    color: var(--primary-teal);
-}
-
-.user-profile img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.user-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: inherit;
-}
-
-/* Location Info */
-.location-info {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.85rem;
-    color: var(--text-light);
-    margin-top: -5px;
-    margin-bottom: 12px;
-}
-
-.location-info i {
-    color: var(--primary-teal);
-    font-size: 0.9rem;
-}
-
-.location-text {
-    color: var(--text-light);
-}
-
-/* Post Actions */
+/* Action Buttons Container */
 .post-actions {
     display: flex;
     justify-content: space-between;
@@ -756,299 +602,153 @@ form input:focus {
 
 .action-buttons {
     display: flex;
-    gap: 8px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
+/* Shared Button Style */
 .action-button {
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 0.9rem;
-    color: var(--text-dark);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
+    font-size: 0.9rem;
+    font-family: 'Georgia', serif;
+    padding: 6px 14px;
+    border-radius: 30px;
+    border: 1px solid #c9c0b6;
+    background-color: #fffaf3;
+    color: #004d4d;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
+/* Hover effect */
 .action-button:hover {
-    background-color: var(--background-light);
-    border-color: var(--primary-teal);
-    color: var(--primary-teal);
-}
-
-.action-button i {
-    font-size: 0.95rem;
-}
-
-.price-tag {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--primary-teal);
-}
-
-/* Marketplace Specific Styles */
-.marketplace-header {
-    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
+    background-color: #008080;
     color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-color: #007070;
+    transform: translateY(-1px) scale(1.03);
 }
 
-.marketplace-search {
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto;
+/* Reaction & Bookmark Icons */
+.like-btn i,
+.bookmark-btn i,
+.card-href i {
+    font-size: 1rem;
+    color: #008080;
+    transition: color 0.3s ease;
 }
 
-.marketplace-search input {
-    width: 100%;
-    padding: 10px 15px;
-    border-radius: 25px;
-    border: none;
-    padding-left: 45px;
-}
-
-.marketplace-search i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-light);
-}
-
-/* Item Card Styles */
-.marketplace-item {
-    background-color: var(--background-white);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: all 0.3s;
-    position: relative;
-}
-
-.marketplace-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.item-image {
-    height: 180px;
-    background-color: #f0f0f0;
-    position: relative;
-    overflow: hidden;
-}
-
-.item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
-}
-
-.marketplace-item:hover .item-image img {
-    transform: scale(1.05);
-}
-
-.item-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: var(--success-green);
+/* Hover icon color change */
+.like-btn:hover i,
+.bookmark-btn:hover i,
+.card-href:hover i {
     color: white;
-    padding: 3px 8px;
-    border-radius: 3px;
-    font-size: 12px;
-    font-weight: bold;
 }
 
-.item-details {
-    padding: 15px;
-}
-
-.item-price {
-    font-weight: bold;
-    color: var(--primary-teal);
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.item-title {
-    font-size: 15px;
-    margin-bottom: 5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.item-location {
-    font-size: 13px;
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.item-location i {
-    color: var(--primary-blue);
-}
-
-.item-seller {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color);
-}
-
-.seller-avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.seller-name {
-    font-size: 13px;
-    color: var(--text-dark);
-}
-
-.item-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.item-action {
-    background: none;
-    border: none;
-    color: var(--text-light);
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.2s;
-}
-
-.item-action:hover {
-    color: var(--primary-blue);
-}
-
-/* Create Listing Button */
-.create-listing-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    cursor: pointer;
-    transition: all 0.3s;
-    z-index: 100;
-}
-
-.create-listing-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-    .marketplace-container {
-        flex-direction: column;
-    }
-    
-    .marketplace-sidebar {
-        width: 100%;
-    }
-    
-    .marketplace-items {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .marketplace-nav {
-        display: none;
-    }
-    
-    .marketplace-items {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    }
-    
-    .item-image {
-        height: 140px;
-    }
-}
-
-/* Filter Tags */
-.filter-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 15px;
-}
-
-.filter-tag {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.filter-tag:hover {
-    background-color: var(--primary-teal-light);
-    color: white;
-    border-color: var(--primary-teal-light);
-}
-
-.user-profile-name {
-    color: var(--primary-teal);
+/* Like count styling */
+.like-count {
+    font-size: 0.9rem;
     font-weight: 500;
-    transition: color 0.2s ease;
+    color: #006666;
+    margin-left: 4px;
 }
 
-.user-profile-name:hover {
-    color: var(--primary-teal-dark);
-    text-decoration: underline !important;
-}
-
-/* Toast Notification */
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--primary-teal);
+/* Bookmarked state (optional) */
+.bookmark-btn.active {
+    background-color: #008080;
     color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
+    border-color: #007070;
 }
 
-@keyframes slideIn {
+.bookmark-btn.active i {
+    color: white;
+}
+
+/* =============================== */
+/* ✨ Global Animations & Transitions */
+/* =============================== */
+
+/* Universal transition for smoother interactions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Smooth fade-in for pages */
+body {
+    animation: bodyFadeIn 0.6s ease-out;
+}
+
+@keyframes bodyFadeIn {
     from {
-        transform: translateX(100%);
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card entrance animation */
+.card {
+    animation: fadeSlideUp 0.5s ease forwards;
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth link hover */
+a,
+.btn,
+.nav-link,
+.action-button {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button hover animations */
+.btn:hover,
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Toast fade in */
+.toast,
+.toast-custom {
+    animation: toastFadeIn 0.4s ease, fadeOut 0.4s ease 3s forwards;
+}
+
+@keyframes toastFadeIn {
+    from {
+        transform: translateX(20px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
-        opacity: 1;
+        opacity: 0.95;
     }
+}
+
+/* Bookmark or like buttons pop when clicked */
+.action-button:active,
+.comment-like-btn:active {
+    transform: scale(0.96);
+}
+
+/* Filter panel (offcanvas) slide-in smoother */
+.offcanvas {
+    transition: transform 0.4s ease-in-out;
 }
