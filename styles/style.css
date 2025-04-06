@@ -1010,6 +1010,17 @@ a,
     padding: 0 1rem;
 }
 
+.card-image {
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+}
+
+.card {
+    width: 100%;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #posts-go-here {
@@ -1052,9 +1063,33 @@ a,
     font-weight: normal;
 }
 
-/* Change style of post now button in newPost.html */
+/* Change style of post button in newPost.html */
 #postNowButton {
     background-color: #008080;
     color: white;
     font-family: helvetica;
+}
+
+/* Change style of post and delete buttons in editPost.html */
+#postNowButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#postButton {
+    background-color: #008080;
+    color: white;
+    font-family: helvetica;
+}
+
+#deleteButton {
+    background-color: #008080;
+    color: white;
+    font-family: helvetica;
+}
+
+#img-goes-here {
+    margin-top: 10px;
 }

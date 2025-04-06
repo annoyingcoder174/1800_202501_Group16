@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Nunito', sans-serif;
     background-color: #f8f9fa;
     color: #333;
 }
@@ -263,12 +263,12 @@ body {
     border-radius: 10px;
     padding: 2rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    font-family: 'Georgia', serif;
+
 }
 
 /* Vintage-styled product title */
 #glassTitle {
-    font-family: 'Georgia', serif;
+
     font-size: 2rem;
     color: #004d4d;
     border-bottom: 2px solid #008080;
@@ -281,7 +281,7 @@ body {
 #glassPrice,
 #glassPrescription,
 #glassLocation {
-    font-family: 'Georgia', serif;
+
     font-size: 1rem;
     color: #444;
     line-height: 1.6;
@@ -290,7 +290,6 @@ body {
 /* Buttons vintage style */
 .btn-primary,
 .btn-outline-primary {
-    font-family: 'Georgia', serif;
     border-radius: 0;
     border: 1px solid #004d4d;
     background-color: #fff;
@@ -320,15 +319,10 @@ body {
 #comment-list .card {
     background-color: #fefcf5;
     border-left: 5px solid #008080;
-    font-family: 'Georgia', serif;
 }
 
 #comment-list .card-body {
     padding: 1rem 1.5rem;
-}
-
-#comment-input {
-    font-family: 'Georgia', serif;
 }
 
 /* Bookmark button */
@@ -455,4 +449,25 @@ body {
     15% { opacity: 1; transform: translate(-50%, 0); }
     85% { opacity: 1; transform: translate(-50%, 0); }
     100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+/* Edit Post Button */
+#editPost {
+    display: flex;
+    justify-content: right;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#editPost>button {
+    border-radius: 0;
+    border: 1px solid #004d4d;
+    background-color: #fff;
+    color: #004d4d;
+    transition: all 0.3s ease-in-out;
+}
+
+#editPost>button:hover {
+    background-color: #004d4d;
+    color: #fff;
 }

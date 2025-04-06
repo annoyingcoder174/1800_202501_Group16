@@ -22,6 +22,7 @@ function displayCardsWithFilters(filters = {}, searchTerm = "") {
     container.innerHTML = "<p class='text-center'>Loading posts...</p>";
 
     db.collection("posts")
+        .orderBy("last_updated", "desc")
         .get()
         .then(snapshot => {
             // Clear loading state

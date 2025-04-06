@@ -19,6 +19,25 @@ function displayGlassInfo() {
             const img = document.querySelector(".glass-img");
             img.src = data.image ? "data:image/png;base64," + data.image : "./images/placeholder.jpg";
 
+            firebase.auth().onAuthStateChanged(user => {
+                if (user && data.owner === user.uid) {
+                    // Post belongs to the user
+                    const editBtn = document.querySelector(".edit-btn");
+                    editBtn.style.display = "block"; // Show edit button
+            
+                    // Add click event to redirect to the edit page
+                    editBtn.addEventListener("click", () => {
+                        window.location.href = `editPost.html?docID=${ID}`;
+                    });
+            
+                    document.querySelector(".delete-btn").style.display = "block"; // Show delete button
+                } else {
+                    // Post does not belong to the user
+                    document.querySelector(".edit-btn").style.display = "none";
+                    document.querySelector(".delete-btn").style.display = "none";
+                }
+            });
+
             const contactBtn = document.querySelector(".contact-btn");
             if (data.email) {
                 contactBtn.href = "mailto:" + data.email;
@@ -30,6 +49,9 @@ function displayGlassInfo() {
 
             document.querySelector(".cart-btn").addEventListener("click", () => addToCart(ID, data));
             checkIfBookmarked(ID);
+
+            // Check if the post belongs to the current user
+           
         }
     });
 }
