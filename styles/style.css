@@ -1033,3 +1033,28 @@ a,
 .offcanvas {
     transition: transform 0.4s ease-in-out;
 }
+
+/* Logo on login.html */
+.logo-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Change font weight in newPost.html */
+.form-group {
+    font-weight: bold;
+}
+
+/* Make radio button labels normal font weight */
+#prescriptionGlasses, #sunglasses, #blueLight {
+    font-weight: normal;
+}
+
+/* Change style of post now button in newPost.html */
+#postNowButton {
+    background-color: #008080;
+    color: white;
+    font-family: helvetica;
+}

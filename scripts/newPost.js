@@ -57,6 +57,15 @@ function savePost() {
             var prescription = document.getElementById("prescription").value;
             var location = document.getElementById("location").value;
             var price = document.getElementById("price").value;
+            var type = document.querySelector('input[name="type"]:checked');
+
+            //Checks if a radio button is selected
+            if (type) {
+                type = type.value;
+            } else {
+                alert("Please select a type for your post");
+                return;
+            }
 
             // Validate required fields
             if (!name || !details || !price) {
@@ -79,6 +88,7 @@ function savePost() {
                 prescription: prescription || "",
                 price: price,
                 location: location || "",
+                type: type,
                 image: ImageString,
                 last_updated: firebase.firestore.FieldValue.serverTimestamp(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
