@@ -1,6 +1,9 @@
 /* General Styles */
 body {
+    padding: 0;
     padding-bottom: 60px;
+    margin: 0;
+    height: 100%;
     font-family: 'helvetica', sans-serif;
     background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
     color: #333;
@@ -753,6 +756,7 @@ a,
     transition: transform 0.4s ease-in-out;
 }
 
+/* Logo on login.html */
 .logo-img {
     width: 200px;
     height: 200px;
@@ -760,6 +764,28 @@ a,
     margin-right: 10px;
 }
 
+/* Centering posts in the feed */
 #posts-go-here {
     justify-content: center;
+    font-family: 'helvetica', sans-serif;
 }
+
+/* Change the font for the card title */
+#posts-go-here .card-title {
+    font-family: 'helvetica', sans-serif;
+  }
+  
+  /* Change the font for the card text (description) */
+  #posts-go-here .card-text {
+    font-family: 'helvetica', sans-serif;
+  }
+  
+  /* Change the font for the user name */
+  #posts-go-here .user-name {
+    font-family: 'helvetica', sans-serif;
+  }
+  
+  /* Change the font for the price display */
+  #posts-go-here .price-amount {
+    font-family: 'helvetica', sans-serif;
+  }
