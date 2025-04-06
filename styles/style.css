@@ -1,31 +1,16 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-<<<<<<< HEAD
-    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--background-white);
-    color: var(--text-dark);
-    padding-top: 56px;
-    line-height: 1.5;
-=======
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
     color: #333;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 }
 
 /* Navbar */
 .navbar {
-<<<<<<< HEAD
-    background-color: var(--background-white) !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: 'Nunito', sans-serif;
-    font-weight: 500;
-=======
     background-color: #f3e9db !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     font-family: 'Georgia', serif;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 }
 
 .navbar-brand img {
@@ -187,7 +172,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-<<<<<<< HEAD
 .price-display {
     margin-top: 4px;
 }
@@ -199,8 +183,6 @@ body {
     font-family: 'Nunito', sans-serif;
 }
 
-=======
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 .card-text,
 .card-prescription {
     font-family: 'Nunito', sans-serif;
@@ -212,13 +194,8 @@ body {
 /* Search */
 .search-input {
     border-radius: 20px;
-<<<<<<< HEAD
     font-family: 'Nunito', sans-serif;
     background-color: var(--background-light);
-=======
-    font-family: 'Georgia', serif;
-    background-color: #fcf9f4;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
     border: 1px solid #ccc;
     color: #333;
     padding-right: 2.5rem;
@@ -257,17 +234,11 @@ body {
 
 /* Filter Panel */
 .offcanvas {
-<<<<<<< HEAD
-    background-color: var(--background-white);
     font-family: 'Nunito', sans-serif;
     color: var(--text-dark);
     border-left: 1px solid var(--border-color);
-=======
-    background-color: #fff6eb;
-    font-family: 'Georgia', serif;
     color: #222;
     border-left: 1px solid #c2b8a3;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 }
 
 .offcanvas-header {
@@ -643,7 +614,6 @@ form input:focus {
 /* View / Bookmark / Like Buttons - Vintage Enhancements */
 /* ===================== */
 
-<<<<<<< HEAD
 .subtitle {
     color: #005f5f;
     margin-bottom: 0.5rem;
@@ -723,9 +693,6 @@ form input:focus {
 }
 
 /* Post Actions */
-=======
-/* Action Buttons Container */
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 .post-actions {
     display: flex;
     justify-content: space-between;
@@ -752,14 +719,11 @@ form input:focus {
     background-color: #fffaf3;
     color: #004d4d;
     cursor: pointer;
-<<<<<<< HEAD
     transition: all 0.2s ease;
     font-weight: 500;
     font-family: 'Nunito', sans-serif;
-=======
     transition: all 0.3s ease;
     text-decoration: none;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 }
 
 /* Hover effect */
@@ -786,7 +750,6 @@ form input:focus {
     color: white;
 }
 
-<<<<<<< HEAD
 .item-details {
     padding: 15px;
 }
@@ -939,11 +902,6 @@ form input:focus {
 
 .user-profile-name {
     color: var(--primary-teal);
-=======
-/* Like count styling */
-.like-count {
-    font-size: 0.9rem;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
     font-weight: 500;
     color: #006666;
     margin-left: 4px;
@@ -953,7 +911,6 @@ form input:focus {
 .bookmark-btn.active {
     background-color: #008080;
     color: white;
-<<<<<<< HEAD
     padding: 12px 24px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -961,9 +918,7 @@ form input:focus {
     animation: slideIn 0.3s ease-out;
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
-=======
     border-color: #007070;
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
 }
 
 .bookmark-btn.active i {
@@ -1046,7 +1001,6 @@ a,
     }
 }
 
-<<<<<<< HEAD
 /* Container for posts */
 #posts-go-here {
     display: flex;
@@ -1069,7 +1023,6 @@ a,
         margin: 0 auto 1rem; /* Center and add bottom margin */
     }
 }
-=======
 /* Bookmark or like buttons pop when clicked */
 .action-button:active,
 .comment-like-btn:active {
@@ -1080,4 +1033,3 @@ a,
 .offcanvas {
     transition: transform 0.4s ease-in-out;
 }
->>>>>>> bab1e15a12692a9bb3965ac2cacfa41796288f72
