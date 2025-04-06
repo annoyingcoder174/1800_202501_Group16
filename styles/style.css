@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     padding-bottom: 60px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'helvetica', sans-serif;
     background: linear-gradient(to bottom, #fdf6ec, #f8f1e9);
     color: #333;
 }
@@ -751,4 +751,15 @@ a,
 /* Filter panel (offcanvas) slide-in smoother */
 .offcanvas {
     transition: transform 0.4s ease-in-out;
+}
+
+.logo-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#posts-go-here {
+    justify-content: center;
 }
