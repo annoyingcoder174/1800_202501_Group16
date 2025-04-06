@@ -1003,13 +1003,13 @@ a,
 
 /* Container for posts */
 #posts-go-here {
-    display: flex;
+    width: 100%;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 1rem;
     padding: 0 1rem;
 }
 
+/* Adjusts the image in a card to be the same size */
 .card-image {
     width: 100%;
     max-height: 100%;
@@ -1030,7 +1030,6 @@ a,
     
     .card {
         width: 100% !important; /* Override inline width */
-        max-width: 18rem; /* Keep maximum width */
         margin: 0 auto 1rem; /* Center and add bottom margin */
     }
 }
@@ -1090,6 +1089,25 @@ a,
     font-family: helvetica;
 }
 
-#img-goes-here {
-    margin-top: 10px;
+/* Change the container so it fits screen better */
+.postContainer {
+    background-color: #fff7ec;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    margin-top: 2rem;
+    transition: background-color 0.3s ease;
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
