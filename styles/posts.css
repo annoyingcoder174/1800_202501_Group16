@@ -471,3 +471,27 @@ body {
     background-color: #004d4d;
     color: #fff;
 }
+
+/* Poster information */
+#poster-info {
+    width: auto;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#poster-profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+#poster-name {
+    padding-top: 15px;
+    width: auto;
+}
+
+#poster-link-name {
+    text-decoration: none;
+    color: black;
+}

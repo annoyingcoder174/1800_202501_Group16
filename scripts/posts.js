@@ -18,7 +18,31 @@ function displayGlassInfo() {
 
             const img = document.querySelector(".glass-img");
             img.src = data.image ? "data:image/png;base64," + data.image : "./images/placeholder.jpg";
+            
+            // Fetch poster's information
+            if (data.owner) {
+                db.collection("users").doc(data.owner).get().then(userDoc => {
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        document.getElementById("poster-name").innerText = userData.name || "Unknown";
 
+                        const profilePic = userData.profilePic || "https://via.placeholder.com/150";
+                        document.getElementById("poster-profile-pic").src = profilePic;
+
+                        // Set the links to the poster's profile page
+                        const profilePageURL = `eachUser.html?userId=${data.owner}`;
+                        document.getElementById("poster-link").href = profilePageURL;
+                        document.getElementById("poster-link-name").href = profilePageURL;
+                    } else {
+                        document.getElementById("poster-name").innerText = "Name: Unknown";
+                        document.getElementById("poster-profile-pic").src = "https://via.placeholder.com/150";
+                    }
+                }).catch(error => {
+                    console.error("Error fetching poster information:", error);
+                });
+            }
+
+            //Checks if a user a logged in and if the post is theirs
             firebase.auth().onAuthStateChanged(user => {
                 if (user && data.owner === user.uid) {
                     // Post belongs to the user
