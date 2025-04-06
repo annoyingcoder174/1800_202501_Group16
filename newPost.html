@@ -42,16 +42,29 @@
 
 <body>
   <div class="container">
-    <h1>Create Post</h1>
+    <h1 style="font-weight: bold">Create a Post</h1>
     <form>
       <div class="form-group">
         <label for="exampleFormControlInput1">Title</label>
-        <input type="text" class="form-control" id="name" placeholder="Title">
+        <input type="text" class="form-control" id="name" placeholder="Glasses">
+      </div>
+      <br>
+      <div class="form-group">
+        <label>Type</label>
+        <br>
+        <input type="radio" name="type" value="prescription" id="type">
+        <label for="prescription" id="prescriptionGlasses">Prescription Glasses</label>
+        <br>
+        <input type="radio" name="type" value="sunglasses" id="type">
+        <label for="sunglasses" id="sunglasses">Sunglasses</label>
+        <br>
+        <input type="radio" name="type" value="blueLight" id="type">
+        <label for="blueLight" id="blueLight">Blue Light Lenses</label>
       </div>
       <br>
       <div class="form-group">
         <label>Description</label>
-        <textarea id="details" rows="4" cols="50"></textarea>
+        <textarea id="details" rows="4" cols="45"></textarea>
       </div>
       <br>
       <div class="form-group">
@@ -61,7 +74,7 @@
       <br>
       <div class="form-group">
         <label for="exampleFormControlInput1">Prescription</label>
-        <input type="text" class="form-control" id="prescription" placeholder="Prescription">
+        <input type="text" class="form-control" id="prescription" placeholder="-3">
       </div>
       <br>
       <div class="form-group">
@@ -75,7 +88,7 @@
       </div>
       <br>
       <div class="d-flex mt-5">
-        <button type="button" class="btn btn-info" onclick="savePost()">Post Now</button>
+        <button id="postNowButton" type="button" class="btn" onclick="savePost()">Post Now</button>
       </div>
     </form>
   </div>

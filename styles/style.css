@@ -773,19 +773,36 @@ a,
 /* Change the font for the card title */
 #posts-go-here .card-title {
     font-family: 'helvetica', sans-serif;
-  }
+}
   
   /* Change the font for the card text (description) */
-  #posts-go-here .card-text {
+#posts-go-here .card-text {
     font-family: 'helvetica', sans-serif;
-  }
+}
   
   /* Change the font for the user name */
-  #posts-go-here .user-name {
+#posts-go-here .user-name {
     font-family: 'helvetica', sans-serif;
-  }
+}
   
   /* Change the font for the price display */
-  #posts-go-here .price-amount {
+#posts-go-here .price-amount {
     font-family: 'helvetica', sans-serif;
-  }
+}
+
+/* Change font weight in newPost.html */
+.form-group {
+    font-weight: bold;
+}
+
+/* Make radio button labels normal font weight */
+#prescriptionGlasses, #sunglasses, #blueLight {
+    font-weight: normal;
+}
+
+/* Change style of post now button in newPost.html */
+#postNowButton {
+    background-color: #008080;
+    color: white;
+    font-family: helvetica;
+}
