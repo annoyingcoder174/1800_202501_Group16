@@ -1,147 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>EyeCycle - Product Details</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+<head>
+  <title>EyeCycle - Product Details</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- FontAwesome (Icons) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Firebase Libraries -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <!-- FontAwesome (Icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="./styles/posts.css" />
-    <link rel="icon" type="image/png" href="./images/EyeCycleLogo.png" />
-  </head>
+  <!-- Firebase Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
-  <body>
-    <!-- Bottom Navbar -->
-    <nav id="navbarPlaceholder"></nav>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./styles/posts.css" />
+  <link rel="icon" type="image/png" href="./images/EyeCycleLogo.png" />
+</head>
 
-    <!-- Product Details Section -->
-    <div class="container mt-4">
-      <div class="row">
-        <!-- Product Image & Bookmark -->
-        <div class="col-md-6 text-center position-relative">
-          <img class="glass-img img-fluid" src="" alt="Glasses photo" />
-          <button
-            id="bookmark-btn"
-            class="btn btn-light position-absolute top-0 end-0 m-3"
-            onclick="toggleBookmark(getDocID())"
-          >
-            <i class="fa-regular fa-bookmark"></i>
-          </button>
-        </div>
+<body>
+  <!-- Bottom Navbar -->
+  <nav id="navbarPlaceholder"></nav>
 
-        <!-- Product Info -->
-        <div class="col-md-6">
-          <h1 id="glassTitle" class="text-success fw-bold">Product Title</h1>
-          <h5>Posted by:</h5>
-          <div id="poster-info">
-            <a id="poster-link" href="#">
+  <!-- Product Details Section -->
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Product Image & Bookmark -->
+      <div class="col-md-6 text-center position-relative">
+        <img class="glass-img img-fluid" src="" alt="Glasses photo" />
+        <button id="bookmark-btn" class="btn btn-light position-absolute top-0 end-0 m-3"
+          onclick="toggleBookmark(getDocID())">
+          <i class="fa-regular fa-bookmark"></i>
+        </button>
+      </div>
+
+      <!-- Product Info -->
+      <div class="col-md-6">
+        <h1 id="glassTitle" class="text-success fw-bold">Product Title</h1>
+        <h5>Posted by:</h5>
+        <div id="poster-info">
+          <a id="poster-link" href="#">
             <img id="poster-profile-pic" src="https://via.placeholder.com/150" alt="Profile Picture">
-            </a>
-            <a id="poster-link-name" href="#">
+          </a>
+          <a id="poster-link-name" href="#">
             <p id="poster-name">Name: Loading...</p>
-            </a>
-          </div>
-          <p id="glassDetails" class="mt-3">
-            Product description will appear here.
-          </p>
-          <p id="glassPrice" class="mt-2 fw-semibold">Price:</p>
-          <p id="glassPrescription" class="mt-2">Prescription:</p>
-          <p id="glassLocation" class="mt-2">Location:</p>
-          <div id="averageRating" class="average-rating-box mt-2">
-            <span class="average-label">Average Rating:</span>
-            <span class="average-value">Loading...</span>
-          </div>
+          </a>
         </div>
-      </div>
-
-      <!-- Contact & Bookmark -->
-      <div class="d-flex justify-content-between align-items-center mt-4">
-        <button
-          class="btn btn-outline-primary btn-lg me-2 bookmark-btn"
-          onclick="toggleBookmark()"
-        >
-          <i class="fa-regular fa-bookmark"></i> Save Post
-        </button>
-        <button class="btn btn-primary btn-lg" onclick="contactSeller()">
-          <i class="fa-solid fa-envelope"></i> Contact Seller
-        </button>
-      </div>
-
-      <!-- Rating Stars -->
-      <div class="card-body text-center mt-4">
-        <p>Rate this product:</p>
-        <span class="fa fa-star star" id="star1"></span>
-        <span class="fa fa-star star" id="star2"></span>
-        <span class="fa fa-star star" id="star3"></span>
-        <span class="fa fa-star star" id="star4"></span>
-        <span class="fa fa-star star" id="star5"></span>
-      </div>
-
-      <div id="editPost">
-        <!-- Edit button -->
-        <button class="edit-btn" style="display: none;">Edit Post</button>
-      </div>
-    </div>
-
-    <!-- Comments Section -->
-    <div class="container mt-5">
-      <h4>Comments</h4>
-      <form id="comment-form" class="d-flex mb-3">
-        <input
-          type="text"
-          id="comment-input"
-          class="form-control me-2"
-          placeholder="Write a comment..."
-          required
-        />
-        <button type="submit" class="btn btn-primary">Post</button>
-      </form>
-      <div id="comment-list"></div>
-    </div>
-    <!-- Bootstrap Toast Container -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-      <div
-        id="custom-toast"
-        class="toast align-items-center text-white bg-success border-0"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="d-flex">
-          <div class="toast-body">Action completed.</div>
-          <button
-            type="button"
-            class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
+        <p id="glassDetails" class="mt-3">
+          Product description will appear here.
+        </p>
+        <p id="glassPrice" class="mt-2 fw-semibold">Price:</p>
+        <p id="glassPrescription" class="mt-2">Prescription:</p>
+        <p id="glassLocation" class="mt-2">Location:</p>
+        <div id="averageRating" class="average-rating-box mt-2">
+          <span class="average-label">Average Rating:</span>
+          <span class="average-value">Loading...</span>
         </div>
       </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./scripts/firebaseAPI_4eyes.js"></script>
-    <script src="./scripts/skeleton.js"></script>
-    <script src="./scripts/posts.js"></script>
-  </body>
+    <!-- Contact & Bookmark -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <button class="btn btn-outline-primary btn-lg me-2 bookmark-btn" onclick="toggleBookmark()">
+        <i class="fa-regular fa-bookmark"></i> Save Post
+      </button>
+      <a class="btn btn-primary btn-lg contact-btn" href="#">
+        <i class="fa-solid fa-envelope"></i> Contact Seller
+      </a>
+
+
+
+    </div>
+
+    <!-- Rating Stars -->
+    <div class="card-body text-center mt-4">
+      <p>Rate this product:</p>
+      <span class="fa fa-star star" id="star1"></span>
+      <span class="fa fa-star star" id="star2"></span>
+      <span class="fa fa-star star" id="star3"></span>
+      <span class="fa fa-star star" id="star4"></span>
+      <span class="fa fa-star star" id="star5"></span>
+    </div>
+
+    <div id="editPost">
+      <!-- Edit button -->
+      <button class="edit-btn" style="display: none;">Edit Post</button>
+    </div>
+  </div>
+
+  <!-- Comments Section -->
+  <div class="container mt-5">
+    <h4>Comments</h4>
+    <form id="comment-form" class="d-flex mb-3">
+      <input type="text" id="comment-input" class="form-control me-2" placeholder="Write a comment..." required />
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+    <div id="comment-list"></div>
+  </div>
+  <!-- Bootstrap Toast Container -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="custom-toast" class="toast align-items-center text-white bg-success border-0" role="alert"
+      aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">Action completed.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+          aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./scripts/firebaseAPI_4eyes.js"></script>
+  <script src="./scripts/skeleton.js"></script>
+  <script src="./scripts/posts.js"></script>
+</body>
+
 </html>
