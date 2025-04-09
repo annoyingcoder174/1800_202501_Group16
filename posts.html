@@ -30,18 +30,21 @@
   <!-- Product Details Section -->
   <div class="container mt-4">
     <div class="row">
-      <!-- Product Image & Bookmark -->
-      <div class="col-md-6 text-center position-relative">
+      <!-- Product Image Only -->
+      <div class="col-md-6 text-center">
         <img class="glass-img img-fluid" src="" alt="Glasses photo" />
-        <button id="bookmark-btn" class="btn btn-light position-absolute top-0 end-0 m-3"
-          onclick="toggleBookmark(getDocID())">
-          <i class="fa-regular fa-bookmark"></i>
-        </button>
       </div>
+
 
       <!-- Product Info -->
       <div class="col-md-6">
-        <h1 id="glassTitle" class="text-success fw-bold">Product Title</h1>
+        <div class="d-flex align-items-center justify-content-between">
+          <h1 id="glassTitle" class="text-success fw-bold mb-0">Product Title</h1>
+          <button id="bookmark-btn" class="btn btn-outline-secondary ms-3" onclick="toggleBookmark(getDocID())"
+            title="Bookmark this post">
+            <i class="fa-regular fa-bookmark"></i>
+          </button>
+        </div>
         <h5>Posted by:</h5>
         <div id="poster-info">
           <a id="poster-link" href="#">
