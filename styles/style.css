@@ -144,7 +144,8 @@ body {
     transition: transform 0.2s ease, box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
-    margin: 0 auto; /* Center cards horizontally */
+    margin: 0 auto;
+    /* Center cards horizontally */
 }
 
 @keyframes fadeInUp {
@@ -634,16 +635,32 @@ form input:focus {
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
 }
 
 /* Button hover effects */
 .bookmark-btn:hover {
     transform: scale(1.1);
     transition: transform 0.2s ease;
+
 }
 
 .bookmark-btn .fa-solid {
@@ -834,7 +851,7 @@ form input:focus {
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s;
     z-index: 100;
@@ -842,7 +859,7 @@ form input:focus {
 
 .create-listing-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive Adjustments */
@@ -850,11 +867,11 @@ form input:focus {
     .marketplace-container {
         flex-direction: column;
     }
-    
+
     .marketplace-sidebar {
         width: 100%;
     }
-    
+
     .marketplace-items {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     }
@@ -864,11 +881,11 @@ form input:focus {
     .marketplace-nav {
         display: none;
     }
-    
+
     .marketplace-items {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
-    
+
     .item-image {
         height: 140px;
     }
@@ -1027,12 +1044,15 @@ a,
         justify-content: center;
         padding: 0;
     }
-    
+
     .card {
-        width: 100% !important; /* Override inline width */
-        margin: 0 auto 1rem; /* Center and add bottom margin */
+        width: 100% !important;
+        /* Override inline width */
+        margin: 0 auto 1rem;
+        /* Center and add bottom margin */
     }
 }
+
 /* Bookmark or like buttons pop when clicked */
 .action-button:active,
 .comment-like-btn:active {
@@ -1058,7 +1078,9 @@ a,
 }
 
 /* Make radio button labels normal font weight */
-#prescriptionGlasses, #sunglasses, #blueLight {
+#prescriptionGlasses,
+#sunglasses,
+#blueLight {
     font-weight: normal;
 }
 
