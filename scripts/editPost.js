@@ -116,16 +116,37 @@ function deletePost() {
 
     // Confirm the delete action with the user
     if (confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
-        // Delete the Firestore document
-        db.collection("posts").doc(docID).delete()
-            .then(() => {
-                alert("Post deleted successfully!");
-                window.location.href = "main.html"; // Redirect to the homepage or another page
-            })
-            .catch(error => {
-                console.error("Error deleting post: ", error);
-                alert("Failed to delete the post. Please try again.");
-            });
+        // Fetch the post to get the owner's ID
+        db.collection("posts").doc(docID).get().then(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                const ownerID = data.owner; // Assuming the post document has an 'owner' field
+
+                // Delete the post document
+                db.collection("posts").doc(docID).delete()
+                    .then(() => {
+                        // Remove the post ID from the user's posts array
+                        db.collection("users").doc(ownerID).update({
+                            posts: firebase.firestore.FieldValue.arrayRemove(docID)
+                        }).then(() => {
+                            alert("Post deleted successfully!");
+                            window.location.href = "main.html"; // Redirect to the homepage or another page
+                        }).catch(error => {
+                            console.error("Error updating user's posts array: ", error);
+                            alert("Failed to update the user's posts array. Please try again.");
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error deleting post: ", error);
+                        alert("Failed to delete the post. Please try again.");
+                    });
+            } else {
+                alert("Post not found.");
+            }
+        }).catch(error => {
+            console.error("Error fetching post: ", error);
+            alert("Failed to fetch the post. Please try again.");
+        });
     }
 }
 
