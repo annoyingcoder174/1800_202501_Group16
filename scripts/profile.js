@@ -25,14 +25,14 @@ firebase.auth().onAuthStateChanged(user => {
         });
 
     } else {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 });
 
 // 🔐 Logout
 document.getElementById("logout").addEventListener("click", () => {
     firebase.auth().signOut().then(() => {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     });
 });
 
