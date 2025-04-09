@@ -26,7 +26,7 @@ function displayGlassInfo() {
             // Save email globally
             ownerEmail = data.email || null;
 
-            // Update contact button with mailto
+            // Update contact button with chat link
             const contactBtn = document.getElementById("contactSellerBtn");
 
             firebase.auth().onAuthStateChanged(currentUser => {
@@ -45,26 +45,19 @@ function displayGlassInfo() {
                 }
             });
 
-
             // Fetch poster's information
             if (data.owner) {
                 db.collection("users").doc(data.owner).get().then(userDoc => {
                     if (userDoc.exists) {
                         const userData = userDoc.data();
                         document.getElementById("poster-name").innerText = userData.name || "Unknown";
-
                         const profilePic = userData.profilePic || "https://via.placeholder.com/150";
                         document.getElementById("poster-profile-pic").src = profilePic;
 
                         const profilePageURL = `eachUser.html?userId=${data.owner}`;
                         document.getElementById("poster-link").href = profilePageURL;
                         document.getElementById("poster-link-name").href = profilePageURL;
-                    } else {
-                        document.getElementById("poster-name").innerText = "Name: Unknown";
-                        document.getElementById("poster-profile-pic").src = "https://via.placeholder.com/150";
                     }
-                }).catch(error => {
-                    console.error("Error fetching poster information:", error);
                 });
             }
 
@@ -77,9 +70,6 @@ function displayGlassInfo() {
                         window.location.href = `editPost.html?docID=${ID}`;
                     });
                     document.querySelector(".delete-btn").style.display = "block";
-                } else {
-                    document.querySelector(".edit-btn").style.display = "none";
-                    document.querySelector(".delete-btn").style.display = "none";
                 }
             });
 
@@ -109,9 +99,7 @@ function toggleBookmark() {
                     showToast("Post removed from bookmarks");
                 });
             } else {
-                bookmarkRef.set({
-                    savedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }).then(() => {
+                bookmarkRef.set({ savedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => {
                     bookmarkBtn.classList.remove("fa-regular");
                     bookmarkBtn.classList.add("fa-solid");
                     showToast("Post saved to bookmarks");
@@ -131,7 +119,6 @@ function checkIfBookmarked(postID) {
     });
 }
 
-// Cart
 function addToCart(postID, product) {
     firebase.auth().onAuthStateChanged(user => {
         if (!user) return alert("Log in first!");
@@ -144,7 +131,6 @@ function addToCart(postID, product) {
     });
 }
 
-// Rating
 function enableStarRating() {
     const stars = document.querySelectorAll(".star");
     const postID = getDocID();
@@ -198,7 +184,158 @@ function updateAverageRating(postID) {
     });
 }
 
-// Comments logic stays unchanged...
+// Comments
+function loadComments(postID) {
+    const list = document.getElementById("comment-list");
+    list.innerHTML = "";
+
+    db.collection("posts").doc(postID).collection("comments")
+        .orderBy("timestamp", "asc")
+        .onSnapshot(snapshot => {
+            list.innerHTML = "";
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const commentID = doc.id;
+
+                const commentDiv = document.createElement("div");
+                commentDiv.classList.add("comment-box", "mb-3");
+                commentDiv.innerHTML = `
+                    <p><strong>${data.userName || "Anonymous"}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
+                    <p>${data.text}</p>
+                    <div class="d-flex align-items-center mb-2">
+                        <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleCommentLike('${postID}', '${commentID}')" data-comment="${commentID}">
+                            <i class="fa-regular fa-thumbs-up"></i> <span class="like-count">0</span>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary" onclick="toggleReplyForm('${commentID}')">
+                            <i class="fa-solid fa-reply"></i> Reply
+                        </button>
+                    </div>
+                    <div class="reply-form-container" id="reply-form-${commentID}" style="display: none;">
+                        <form class="d-flex mb-2" onsubmit="submitReply(event, '${postID}', '${commentID}')">
+                            <input type="text" class="form-control me-2" placeholder="Write a reply..." required />
+                            <button type="submit" class="btn btn-sm btn-success">Reply</button>
+                        </form>
+                    </div>
+                    <div class="replies" id="replies-${commentID}"></div>
+                `;
+                list.appendChild(commentDiv);
+
+                const likeCount = commentDiv.querySelector(".like-count");
+                updateCommentLikeCount(postID, commentID, likeCount);
+
+                const repliesContainer = commentDiv.querySelector(`#replies-${commentID}`);
+                if (repliesContainer) loadReplies(postID, commentID, repliesContainer);
+            });
+        });
+}
+function toggleReplyForm(commentID) {
+    const form = document.getElementById(`reply-form-${commentID}`);
+    form.style.display = form.style.display === "none" ? "block" : "none";
+}
+function submitReply(e, postID, commentID) {
+    e.preventDefault();
+    const input = e.target.querySelector("input");
+    const text = input.value.trim();
+    if (!text) return;
+
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return alert("Please log in to reply.");
+
+        db.collection("posts").doc(postID)
+            .collection("comments").doc(commentID)
+            .collection("replies").add({
+                userId: user.uid,
+                userName: user.displayName || "User",
+                text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                input.value = "";
+            });
+    });
+}
+
+function loadReplies(postID, commentID, container) {
+    db.collection("posts").doc(postID)
+        .collection("comments").doc(commentID)
+        .collection("replies")
+        .orderBy("timestamp", "asc")
+        .onSnapshot(snapshot => {
+            container.innerHTML = "";
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const replyDiv = document.createElement("div");
+                replyDiv.classList.add("ms-4", "mt-2", "p-2", "border", "rounded", "bg-light");
+                replyDiv.innerHTML = `
+                    <p><strong>${data.userName}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
+                    <p>${data.text}</p>
+                `;
+                container.appendChild(replyDiv);
+            });
+        });
+}
+
+
+
+function submitComment(postID) {
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return alert("Log in to comment.");
+        const input = document.getElementById("comment-input");
+        const text = input.value.trim();
+        if (!text) return;
+
+        db.collection("posts").doc(postID).collection("comments").add({
+            userId: user.uid,
+            userName: user.displayName || "User",
+            text,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            input.value = "";
+        });
+    });
+}
+
+function toggleCommentLike(postID, commentID) {
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return alert("Please log in to like comments.");
+
+        const likeRef = db.collection("posts").doc(postID)
+            .collection("comments").doc(commentID)
+            .collection("likes").doc(user.uid);
+
+        likeRef.get().then(doc => {
+            const icon = document.querySelector(`[data-comment="${commentID}"] i`);
+            if (doc.exists) {
+                likeRef.delete().then(() => {
+                    if (icon) icon.classList.replace("fa-solid", "fa-regular");
+                });
+            } else {
+                likeRef.set({ likedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(() => {
+                    if (icon) icon.classList.replace("fa-regular", "fa-solid");
+                });
+            }
+        });
+    });
+}
+
+function updateCommentLikeCount(postID, commentID, element) {
+    db.collection("posts").doc(postID)
+        .collection("comments").doc(commentID)
+        .collection("likes")
+        .onSnapshot(snapshot => {
+            element.textContent = snapshot.size;
+        });
+}
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const postID = getDocID();
@@ -212,14 +349,42 @@ document.addEventListener("DOMContentLoaded", () => {
         submitComment(postID);
     });
 });
+function replyToComment(commentID) {
+    const replyText = prompt("Write your reply:");
+    if (!replyText) return;
 
-function showToast(message) {
-    const toast = document.createElement("div");
-    toast.className = "toast-message";
-    toast.textContent = message;
-    document.body.appendChild(toast);
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) return alert("Log in to reply.");
 
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
+        const postID = getDocID();
+
+        db.collection("posts").doc(postID)
+            .collection("comments").doc(commentID)
+            .collection("replies")
+            .add({
+                userId: user.uid,
+                userName: user.displayName || "User",
+                text: replyText,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+    });
+}
+function loadReplies(postID, commentID, container) {
+    db.collection("posts").doc(postID)
+        .collection("comments").doc(commentID)
+        .collection("replies")
+        .orderBy("timestamp", "asc")
+        .onSnapshot(snapshot => {
+            container.innerHTML = ""; // clear before updating
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const replyDiv = document.createElement("div");
+                replyDiv.classList.add("ms-4", "mt-2", "p-2", "border", "rounded");
+                replyDiv.innerHTML = `
+                    <p><strong>${data.userName}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
+                    <p>${data.text}</p>
+                `;
+                container.appendChild(replyDiv);
+            });
+        });
 }
