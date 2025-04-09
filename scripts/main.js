@@ -94,10 +94,16 @@ function displayCardsWithFilters(filters = {}, searchTerm = "") {
                     card.querySelector(".card-text").textContent = data.details || "No description";
 
                     // Prescription
+                    const rightEye = data.rightEye !== undefined ? data.rightEye : "N/A";
+                    const leftEye = data.leftEye !== undefined ? data.leftEye : "N/A";
+                    const lastUpdated = data.last_updated ? data.last_updated.toDate().toLocaleDateString() : "Unknown";
+
                     card.querySelector(".card-prescription").innerHTML = `
-              Prescription: ${data.prescription || "N/A"}<br>
-              Last updated: ${data.last_updated ? data.last_updated.toDate().toLocaleDateString() : "Unknown"}
-            `;
+  Right Eye: ${rightEye}<br>
+  Left Eye: ${leftEye}<br>
+  Last updated: ${lastUpdated}
+`;
+
 
                     // User Info
                     if (data.owner_id) {
