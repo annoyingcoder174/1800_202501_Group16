@@ -242,6 +242,34 @@ function loadComments(postID) {
             });
         });
 }
+function submitReply(event, postID, commentID) {
+    event.preventDefault(); // Prevent form from reloading the page
+
+    const form = event.target;
+    const input = form.querySelector("input");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    firebase.auth().onAuthStateChanged(async user => {
+        if (!user) return alert("Please log in to reply.");
+
+        // Fetch the latest name from Firestore
+        const userDoc = await db.collection("users").doc(user.uid).get();
+        const userName = userDoc.exists ? userDoc.data().name || "User" : "User";
+
+        db.collection("posts").doc(postID)
+            .collection("comments").doc(commentID)
+            .collection("replies").add({
+                userId: user.uid,
+                userName,
+                text,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                input.value = ""; // Clear after sending
+            });
+    });
+}
 
 
 
@@ -369,4 +397,10 @@ function loadReplies(postID, commentID, container) {
                 container.appendChild(replyDiv);
             });
         });
+}
+function toggleReplyForm(commentID) {
+    const replyBox = document.getElementById(`reply-form-${commentID}`);
+    if (replyBox) {
+        replyBox.style.display = replyBox.style.display === "none" ? "block" : "none";
+    }
 }
