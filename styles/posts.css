@@ -2,13 +2,13 @@
 body {
     padding-bottom: 60px;
     font-family: 'Nunito', sans-serif;
-    background-color: #f8f9fa;
+    background-color: white;
     color: #333;
 }
 
 /* Navbar Styles */
 .navbar {
-    background-color: #ffffff;
+    background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px 20px;
     transition: all 0.3s ease-in-out;
@@ -41,6 +41,11 @@ body {
     color: #006666;
 }
 
+#poster-name:hover {
+    color: #008080;
+    text-decoration: underline;
+}
+
 /* Mobile Navigation Bar (Bottom Navbar) */
 @media (max-width: 768px) {
     .navbar {
@@ -48,7 +53,7 @@ body {
         bottom: 0;
         width: 100%;
         z-index: 1000;
-        background-color: #ffffff;
+        background-color: white;
         box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     }
 
@@ -83,7 +88,7 @@ body {
 
 /* Product Details Container */
 .container {
-    background-color: #ffffff;
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 2rem;
@@ -104,7 +109,7 @@ body {
 #glassTitle {
     font-size: 32px;
     font-weight: 700;
-    color: #008040;
+    color: #008080;
     margin-bottom: 1rem;
 }
 
@@ -152,7 +157,7 @@ body {
 
 /* Average Rating Display Box */
 .average-rating-box {
-    background-color: #e6f9f9;
+    background-color: white;
     padding: 10px 16px;
     border-radius: 8px;
     display: inline-block;
@@ -201,28 +206,6 @@ body {
     color: #fbc02d;
 }
 
-/* Footer Styles */
-.footer {
-    background-color: #004d4d;
-    color: white;
-    padding: 2rem 0;
-    margin-top: 2rem;
-    text-align: center;
-    border-radius: 10px 10px 0 0;
-}
-
-.footer a i:hover {
-    color: #66b2b2;
-}
-
-.footer-bottom {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    font-size: 14px;
-    color: #140707;
-}
-
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .container {
@@ -231,14 +214,6 @@ body {
 
     .star {
         font-size: 25px;
-    }
-
-    .footer {
-        padding: 1.5rem 0;
-    }
-
-    .footer a i {
-        font-size: 20px;
     }
 
     #glassTitle {
@@ -257,7 +232,7 @@ body {
 
 /* Vintage border & shadows for main container */
 .container {
-    background-color: #fffef9;
+    background-color: white;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 2rem;
@@ -291,7 +266,7 @@ body {
 .btn-outline-primary {
     border-radius: 0;
     border: 1px solid #004d4d;
-    background-color: #fff;
+    background-color: white;
     color: #004d4d;
     transition: all 0.3s ease-in-out;
 }
@@ -299,7 +274,7 @@ body {
 .btn-primary:hover,
 .btn-outline-primary:hover {
     background-color: #004d4d;
-    color: #fff;
+    color: white;
 }
 
 /* Star rating vintage style */
@@ -316,7 +291,7 @@ body {
 
 /* Comments vintage style */
 #comment-list .card {
-    background-color: #fefcf5;
+    background-color: white;
     border-left: 5px solid #008080;
 }
 
@@ -326,7 +301,7 @@ body {
 
 /* Bookmark button */
 #bookmark-btn {
-    background: #fff;
+    background: white;
     border: 1px solid #ccc;
     font-size: 1.2rem;
     color: #008080;
@@ -345,7 +320,7 @@ body {
     border-radius: 50%;
     margin-right: 12px;
     border: 2px solid #d3cfc4;
-    background-color: #fffaf3;
+    background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -369,7 +344,7 @@ body {
 }
 
 .comment-card {
-    background-color: #fffdf7;
+    background-color: white;
     border: 1px solid #e2dcd0;
     border-radius: 10px;
     padding: 1rem;
@@ -378,7 +353,7 @@ body {
 }
 
 .reply-box {
-    background-color: #fcf6ea;
+    background-color: white;
     border-left: 3px solid #d3cfc4;
     padding: 0.75rem;
     border-radius: 8px;
@@ -400,7 +375,7 @@ body {
 .reply-input {
     border-radius: 6px;
     font-family: 'Georgia', serif;
-    background-color: #fff9f3;
+    background-color: white;
     border: 1px solid #ccc;
 }
 
@@ -476,14 +451,14 @@ body {
 #editPost>button {
     border-radius: 0;
     border: 1px solid #004d4d;
-    background-color: #fff;
+    background-color: white;
     color: #004d4d;
     transition: all 0.3s ease-in-out;
 }
 
 #editPost>button:hover {
     background-color: #004d4d;
-    color: #fff;
+    color: white;
 }
 
 /* Poster information */
