@@ -1085,3 +1085,12 @@ a,
         transform: translateY(0);
     }
 }
+
+.custom-title {
+    color: #008080;
+    /* replace with your desired color */
+    border-bottom: 3px solid #b35c1e;
+    /* mimic underline */
+    display: inline-block;
+    padding-bottom: 4px;
+}

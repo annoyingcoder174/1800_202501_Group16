@@ -52,7 +52,7 @@ body {
     /* Above bottom navbar */
     left: 50%;
     transform: translateX(-50%);
-    background-color: #28a745;
+    background-color: #008080;
     /* Green success */
     color: white;
     padding: 12px 20px;
@@ -174,7 +174,7 @@ body {
 /* Buttons */
 /* Vintage Styled Add to Cart Button */
 .cart-btn {
-    background-color: #28a745;
+    background-color: #008080;
     /* Success green */
     border: 1px solid #218838;
     /* Slightly darker green */
@@ -192,7 +192,7 @@ body {
 }
 
 .cart-btn:hover {
-    background-color: #218838;
+    background-color: #025a5a;
     /* Darker on hover */
     transform: translateY(-2px);
     /* Slight lift effect */
