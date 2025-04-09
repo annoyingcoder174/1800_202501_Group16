@@ -16,7 +16,8 @@ function displayGlassInfo() {
             document.getElementById("glassTitle").innerText = data.name || "Untitled";
             document.getElementById("glassDetails").innerText = data.details || "No description";
             document.getElementById("glassPrice").innerText = "Price: $" + (data.price || "N/A");
-            document.getElementById("glassPrescription").innerText = "Prescription: " + (data.prescription || "N/A");
+            document.getElementById("glassRightEye").innerText = "Right Eye: " + (data.rightEye ?? "N/A");
+            document.getElementById("glassLeftEye").innerText = "Left Eye: " + (data.leftEye ?? "N/A");
             document.getElementById("glassLocation").innerText = "Location: " + (data.location || "N/A");
 
             const img = document.querySelector(".glass-img");
