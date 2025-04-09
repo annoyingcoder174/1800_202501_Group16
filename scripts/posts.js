@@ -193,31 +193,45 @@ function loadComments(postID) {
         .orderBy("timestamp", "asc")
         .onSnapshot(snapshot => {
             list.innerHTML = "";
-            snapshot.forEach(doc => {
+            snapshot.forEach(async doc => {
                 const data = doc.data();
                 const commentID = doc.id;
+
+                // Fetch user info from users collection
+                const userDoc = await db.collection("users").doc(data.userId).get();
+                const userData = userDoc.exists ? userDoc.data() : {};
+                const userName = userData.name || data.userName || "Anonymous";
+                const profilePic = userData.profilePic || "https://via.placeholder.com/40";
 
                 const commentDiv = document.createElement("div");
                 commentDiv.classList.add("comment-box", "mb-3");
                 commentDiv.innerHTML = `
-                    <p><strong>${data.userName || "Anonymous"}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
-                    <p>${data.text}</p>
-                    <div class="d-flex align-items-center mb-2">
-                        <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleCommentLike('${postID}', '${commentID}')" data-comment="${commentID}">
-                            <i class="fa-regular fa-thumbs-up"></i> <span class="like-count">0</span>
-                        </button>
-                        <button class="btn btn-sm btn-outline-primary" onclick="toggleReplyForm('${commentID}')">
-                            <i class="fa-solid fa-reply"></i> Reply
-                        </button>
+                    <div class="d-flex align-items-start gap-3">
+                        <img src="${profilePic}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        <div>
+                            <p class="mb-1"><strong>${userName}</strong> 
+                                <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small>
+                            </p>
+                            <p class="mb-2">${data.text}</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleCommentLike('${postID}', '${commentID}')" data-comment="${commentID}">
+                                    <i class="fa-regular fa-thumbs-up"></i> <span class="like-count">0</span>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" onclick="toggleReplyForm('${commentID}')">
+                                    <i class="fa-solid fa-reply"></i> Reply
+                                </button>
+                            </div>
+                            <div class="reply-form-container" id="reply-form-${commentID}" style="display: none;">
+                                <form class="d-flex mb-2" onsubmit="submitReply(event, '${postID}', '${commentID}')">
+                                    <input type="text" class="form-control me-2" placeholder="Write a reply..." required />
+                                    <button type="submit" class="btn btn-sm btn-success">Reply</button>
+                                </form>
+                            </div>
+                            <div class="replies" id="replies-${commentID}"></div>
+                        </div>
                     </div>
-                    <div class="reply-form-container" id="reply-form-${commentID}" style="display: none;">
-                        <form class="d-flex mb-2" onsubmit="submitReply(event, '${postID}', '${commentID}')">
-                            <input type="text" class="form-control me-2" placeholder="Write a reply..." required />
-                            <button type="submit" class="btn btn-sm btn-success">Reply</button>
-                        </form>
-                    </div>
-                    <div class="replies" id="replies-${commentID}"></div>
                 `;
+
                 list.appendChild(commentDiv);
 
                 const likeCount = commentDiv.querySelector(".like-count");
@@ -225,51 +239,6 @@ function loadComments(postID) {
 
                 const repliesContainer = commentDiv.querySelector(`#replies-${commentID}`);
                 if (repliesContainer) loadReplies(postID, commentID, repliesContainer);
-            });
-        });
-}
-function toggleReplyForm(commentID) {
-    const form = document.getElementById(`reply-form-${commentID}`);
-    form.style.display = form.style.display === "none" ? "block" : "none";
-}
-function submitReply(e, postID, commentID) {
-    e.preventDefault();
-    const input = e.target.querySelector("input");
-    const text = input.value.trim();
-    if (!text) return;
-
-    firebase.auth().onAuthStateChanged(user => {
-        if (!user) return alert("Please log in to reply.");
-
-        db.collection("posts").doc(postID)
-            .collection("comments").doc(commentID)
-            .collection("replies").add({
-                userId: user.uid,
-                userName: user.displayName || "User",
-                text,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                input.value = "";
-            });
-    });
-}
-
-function loadReplies(postID, commentID, container) {
-    db.collection("posts").doc(postID)
-        .collection("comments").doc(commentID)
-        .collection("replies")
-        .orderBy("timestamp", "asc")
-        .onSnapshot(snapshot => {
-            container.innerHTML = "";
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                const replyDiv = document.createElement("div");
-                replyDiv.classList.add("ms-4", "mt-2", "p-2", "border", "rounded", "bg-light");
-                replyDiv.innerHTML = `
-                    <p><strong>${data.userName}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
-                    <p>${data.text}</p>
-                `;
-                container.appendChild(replyDiv);
             });
         });
 }
@@ -375,15 +344,28 @@ function loadReplies(postID, commentID, container) {
         .collection("replies")
         .orderBy("timestamp", "asc")
         .onSnapshot(snapshot => {
-            container.innerHTML = ""; // clear before updating
-            snapshot.forEach(doc => {
+            container.innerHTML = ""; // Clear before updating
+            snapshot.forEach(async doc => {
                 const data = doc.data();
+
+                // Fetch user info from users collection
+                const userDoc = await db.collection("users").doc(data.userId).get();
+                const userData = userDoc.exists ? userDoc.data() : {};
+                const userName = userData.name || data.userName || "Anonymous";
+                const profilePic = userData.profilePic || "https://via.placeholder.com/40";
+
                 const replyDiv = document.createElement("div");
-                replyDiv.classList.add("ms-4", "mt-2", "p-2", "border", "rounded");
+                replyDiv.classList.add("d-flex", "align-items-start", "gap-3", "ms-4", "mt-3");
+
                 replyDiv.innerHTML = `
-                    <p><strong>${data.userName}</strong> <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
-                    <p>${data.text}</p>
+                    <img src="${profilePic}" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
+                    <div class="p-2 border rounded bg-light w-100">
+                        <p class="mb-1"><strong>${userName}</strong> 
+                          <small class="text-muted">(${new Date(data.timestamp?.toDate()).toLocaleString()})</small></p>
+                        <p class="mb-0">${data.text}</p>
+                    </div>
                 `;
+
                 container.appendChild(replyDiv);
             });
         });
