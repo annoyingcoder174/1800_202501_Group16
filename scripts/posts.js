@@ -26,16 +26,24 @@ function displayGlassInfo() {
             ownerEmail = data.email || null;
 
             // Update contact button with mailto
-            const contactBtn = document.querySelector(".contact-btn");
-            if (ownerEmail) {
-                contactBtn.setAttribute("href", `mailto:${ownerEmail}`);
-                contactBtn.classList.remove("disabled");
-                contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Contact Seller`;
-            } else {
-                contactBtn.setAttribute("href", "#");
-                contactBtn.classList.add("disabled");
-                contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Email Not Available`;
-            }
+            const contactBtn = document.getElementById("contactSellerBtn");
+
+            firebase.auth().onAuthStateChanged(currentUser => {
+                if (currentUser && data.owner && data.owner !== currentUser.uid) {
+                    db.collection("users").doc(data.owner).get().then(userDoc => {
+                        if (userDoc.exists) {
+                            const sellerName = encodeURIComponent(userDoc.data().name || "Seller");
+                            contactBtn.setAttribute("href", `chat.html?userId=${data.owner}&userName=${sellerName}`);
+                            contactBtn.classList.remove("disabled");
+                            contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Contact Seller`;
+                        }
+                    });
+                } else {
+                    contactBtn.classList.add("disabled");
+                    contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Not Available`;
+                }
+            });
+
 
             // Fetch poster's information
             if (data.owner) {

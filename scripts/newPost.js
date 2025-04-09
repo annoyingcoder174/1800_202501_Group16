@@ -1,119 +1,89 @@
 var ImageFile;
-var ImageString;  // Properly declare ImageString
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB max size
+var ImageString;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 function listenFileSelect() {
-    // listen for file selection
-    document.getElementById("mypic-input").addEventListener('change', function (e) {
+    document.getElementById("mypic-input").addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (file) {
-            // Check if file is an image
-            if (!file.type.startsWith('image/')) {
-                alert('Please select an image file (PNG, JPG, JPEG, GIF)');
+            if (!file.type.startsWith("image/")) {
+                alert("Please select a valid image file");
                 return;
             }
-
-            // Check file size
             if (file.size > MAX_IMAGE_SIZE) {
-                alert('Image size should be less than 5MB');
+                alert("Image size must be less than 5MB");
                 return;
             }
 
             var reader = new FileReader();
-            
-            reader.onerror = function() {
-                console.error('Error reading file');
-                alert('Error reading the image file. Please try again.');
-            };
+            reader.onerror = () => alert("Error reading image file");
 
-            // When file reading is complete, save it as global variable, 
-            // and display it on the page
             reader.onload = function (e) {
                 try {
-                    ImageString = e.target.result.split(',')[1]; // Extract Base64 data
-                    var imgElement = document.getElementById("image-goes-here");
-                    imgElement.src = e.target.result; // Use the complete data URL
-                    imgElement.style.display = 'block'; // Make sure image is visible
-                    ImageFile = file; // Save the file object
-                } catch (error) {
-                    console.error('Error processing image:', error);
-                    alert('Error processing the image. Please try another image.');
+                    ImageString = e.target.result.split(",")[1];
+                    const img = document.getElementById("image-goes-here");
+                    img.src = e.target.result;
+                    img.style.display = "block";
+                    ImageFile = file;
+                } catch (err) {
+                    console.error("Image processing error:", err);
+                    alert("Invalid image file");
                 }
             };
-
-            // Read the file as a Data URL (Base64 encoding)
             reader.readAsDataURL(file);
         }
-    })
+    });
 }
 listenFileSelect();
 
 function savePost() {
     firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            // User is signed in.
-            var name = document.getElementById("name").value;
-            var details = document.getElementById("details").value;
-            var prescription = document.getElementById("prescription").value;
-            var location = document.getElementById("location").value;
-            var price = document.getElementById("price").value;
-            var type = document.querySelector('input[name="type"]:checked');
-
-            //Checks if a radio button is selected
-            if (type) {
-                type = type.value;
-            } else {
-                alert("Please select a type for your post");
-                return;
-            }
-
-            // Validate required fields
-            if (!name || !details || !price) {
-                alert("Please fill in all required fields (Title, Description, and Price)");
-                return;
-            }
-
-            // Check if image was uploaded
-            if (!ImageString) {
-                alert("Please select an image for your post");
-                return;
-            }
-
-            // Create post data
-            const postData = {
-                owner: user.uid,
-                name: name,
-                email: user.email,
-                details: details,
-                prescription: prescription || "",
-                price: price,
-                location: location || "",
-                type: type,
-                image: ImageString,
-                last_updated: firebase.firestore.FieldValue.serverTimestamp(),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            // Save to Firestore
-            db.collection("posts").add(postData)
-                .then(doc => {
-                    console.log("Post created with ID:", doc.id);
-                    savePostIDforUser(doc.id);
-                })
-                .catch(error => {
-                    console.error("Error creating post:", error);
-                    alert("Error creating post: " + error.message);
-                });
-        } else {
-            // No user is signed in.
-            console.log("Error, no user signed in");
+        if (!user) {
             alert("Please sign in to create a post");
+            return;
         }
+
+        const name = document.getElementById("name").value.trim();
+        const details = document.getElementById("details").value.trim();
+        const price = document.getElementById("price").value.trim();
+        const location = document.getElementById("location").value.trim();
+        const rightEye = parseFloat(document.getElementById("rightEye").value);
+        const leftEye = parseFloat(document.getElementById("leftEye").value);
+        const typeElement = document.querySelector('input[name="type"]:checked');
+
+        if (!name || !details || !price || !typeElement || !ImageString) {
+            alert("Please fill all required fields and upload an image.");
+            return;
+        }
+
+        const postData = {
+            owner: user.uid,
+            email: user.email,
+            name,
+            details,
+            price,
+            location,
+            type: typeElement.value,
+            image: ImageString,
+            rightEye: isNaN(rightEye) ? null : rightEye,
+            leftEye: isNaN(leftEye) ? null : leftEye,
+            last_updated: firebase.firestore.FieldValue.serverTimestamp(),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        db.collection("posts")
+            .add(postData)
+            .then(doc => {
+                console.log("Post created:", doc.id);
+                savePostIDforUser(doc.id);
+            })
+            .catch(error => {
+                console.error("Error posting:", error);
+                alert("Failed to create post");
+            });
     });
 }
 
-//--------------------------------------------
-//saves the post ID for the user, in an array
 function savePostIDforUser(postDocID) {
     firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -121,15 +91,12 @@ function savePostIDforUser(postDocID) {
                 posts: firebase.firestore.FieldValue.arrayUnion(postDocID)
             })
                 .then(() => {
-                    console.log("Post saved to user's document!");
-                    // ✅ Show success message
-                    alert("Your product has been posted successfully!");
-                    // ✅ Redirect to main.html
+                    alert("Post published successfully!");
                     window.location.href = "main.html";
                 })
                 .catch(error => {
-                    console.error("Error writing document: ", error);
-                    alert("Something went wrong while saving your post.");
+                    console.error("Error saving post to user:", error);
+                    alert("Failed to save post ID to user profile.");
                 });
         }
     });
