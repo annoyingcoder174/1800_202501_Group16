@@ -11,73 +11,82 @@ function getDocID() {
 function displayGlassInfo() {
     const ID = getDocID();
     db.collection("posts").doc(ID).get().then(doc => {
-        if (doc.exists) {
-            const data = doc.data();
-            document.getElementById("glassTitle").innerText = data.name || "Untitled";
-            document.getElementById("glassDetails").innerText = data.details || "No description";
-            document.getElementById("glassPrice").innerText = "Price: $" + (data.price || "N/A");
-            document.getElementById("glassRightEye").innerText = "Right Eye: " + (data.rightEye ?? "N/A");
-            document.getElementById("glassLeftEye").innerText = "Left Eye: " + (data.leftEye ?? "N/A");
-            document.getElementById("glassLocation").innerText = "Location: " + (data.location || "N/A");
+        if (!doc.exists) return;
 
-            const img = document.querySelector(".glass-img");
-            img.src = data.image ? "data:image/png;base64," + data.image : "./images/placeholder.jpg";
+        const data = doc.data();
 
-            // Save email globally
-            ownerEmail = data.email || null;
+        // Display product data
+        document.getElementById("glassTitle").innerText = data.name || "Untitled";
+        document.getElementById("glassDetails").innerText = data.details || "No description";
+        document.getElementById("glassPrice").innerText = "Price: $" + (data.price || "N/A");
+        document.getElementById("glassRightEye").innerText = "Right Eye: " + (data.rightEye ?? "N/A");
+        document.getElementById("glassLeftEye").innerText = "Left Eye: " + (data.leftEye ?? "N/A");
+        document.getElementById("glassLocation").innerText = "Location: " + (data.location || "N/A");
 
-            // Update contact button with chat link
-            const contactBtn = document.getElementById("contactSellerBtn");
+        // Display image
+        const img = document.querySelector(".glass-img");
+        img.src = data.image ? "data:image/png;base64," + data.image : "./images/placeholder.jpg";
 
-            firebase.auth().onAuthStateChanged(currentUser => {
-                if (currentUser && data.owner && data.owner !== currentUser.uid) {
-                    db.collection("users").doc(data.owner).get().then(userDoc => {
-                        if (userDoc.exists) {
-                            const sellerName = encodeURIComponent(userDoc.data().name || "Seller");
-                            contactBtn.setAttribute("href", `chat.html?userId=${data.owner}&userName=${sellerName}`);
-                            contactBtn.classList.remove("disabled");
-                            contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Contact Seller`;
-                        }
-                    });
-                } else {
-                    contactBtn.classList.add("disabled");
-                    contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Not Available`;
-                }
-            });
+        // Save email globally
+        ownerEmail = data.email || null;
 
-            // Fetch poster's information
-            if (data.owner) {
+        const contactBtn = document.getElementById("contactSellerBtn");
+        const addToCartBtn = document.querySelector(".cart-btn");
+
+        firebase.auth().onAuthStateChanged(currentUser => {
+            // Enable Contact Button
+            if (currentUser && data.owner && data.owner !== currentUser.uid) {
                 db.collection("users").doc(data.owner).get().then(userDoc => {
                     if (userDoc.exists) {
-                        const userData = userDoc.data();
-                        document.getElementById("poster-name").innerText = userData.name || "Unknown";
-                        const profilePic = userData.profilePic || "https://via.placeholder.com/150";
-                        document.getElementById("poster-profile-pic").src = profilePic;
-
-                        const profilePageURL = `eachUser.html?userId=${data.owner}`;
-                        document.getElementById("poster-link").href = profilePageURL;
-                        document.getElementById("poster-link-name").href = profilePageURL;
+                        const sellerName = encodeURIComponent(userDoc.data().name || "Seller");
+                        contactBtn.setAttribute("href", `chat.html?userId=${data.owner}&userName=${sellerName}`);
+                        contactBtn.classList.remove("disabled");
+                        contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Contact Seller`;
                     }
                 });
+            } else {
+                contactBtn.classList.add("disabled");
+                contactBtn.innerHTML = `<i class='fa-solid fa-envelope'></i> Not Available`;
             }
 
-            // Show edit/delete buttons if user owns the post
-            firebase.auth().onAuthStateChanged(user => {
-                if (user && data.owner === user.uid) {
-                    const editBtn = document.querySelector(".edit-btn");
-                    editBtn.style.display = "block";
-                    editBtn.addEventListener("click", () => {
-                        window.location.href = `editPost.html?docID=${ID}`;
-                    });
-                    document.querySelector(".delete-btn").style.display = "block";
+            // Enable "Add to Cart"
+            if (addToCartBtn && currentUser) {
+                addToCartBtn.addEventListener("click", () => addToCart(ID, data));
+            }
+        });
+
+        // Fetch poster info
+        if (data.owner) {
+            db.collection("users").doc(data.owner).get().then(userDoc => {
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    document.getElementById("poster-name").innerText = userData.name || "Unknown";
+                    const profilePic = userData.profilePic || "https://via.placeholder.com/150";
+                    document.getElementById("poster-profile-pic").src = profilePic;
+
+                    const profileURL = `eachUser.html?userId=${data.owner}`;
+                    document.getElementById("poster-link").href = profileURL;
+                    document.getElementById("poster-link-name").href = profileURL;
                 }
             });
-
-            document.querySelector(".cart-btn")?.addEventListener("click", () => addToCart(ID, data));
-            checkIfBookmarked(ID);
         }
+
+        // Show edit button if user is owner
+        firebase.auth().onAuthStateChanged(user => {
+            if (user && data.owner === user.uid) {
+                const editBtn = document.querySelector(".edit-btn");
+                editBtn.style.display = "block";
+                editBtn.addEventListener("click", () => {
+                    window.location.href = `editPost.html?docID=${ID}`;
+                });
+                document.querySelector(".delete-btn").style.display = "block";
+            }
+        });
+
+        checkIfBookmarked(ID);
     });
 }
+
 
 // Bookmark logic
 function toggleBookmark() {
@@ -122,14 +131,34 @@ function checkIfBookmarked(postID) {
 function addToCart(postID, product) {
     firebase.auth().onAuthStateChanged(user => {
         if (!user) return alert("Log in first!");
+
         db.collection("users").doc(user.uid).collection("cart").doc(postID).set({
             name: product.name,
             price: parseFloat(product.price || 0),
             image: product.image || "",
             addedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => showToast("Product added to cart!"));
+        }).then(() => {
+            showToast("✔️ Product added to cart!");
+        }).catch(error => {
+            showToast("❌ Failed to add to cart.");
+            console.error("Error adding to cart:", error);
+        });
     });
 }
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast-message";
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+
+
 
 function enableStarRating() {
     const stars = document.querySelectorAll(".star");
@@ -325,14 +354,16 @@ function updateCommentLikeCount(postID, commentID, element) {
 
 function showToast(message) {
     const toast = document.createElement("div");
-    toast.className = "toast-message";
+    toast.className = "custom-toast";
     toast.textContent = message;
+
     document.body.appendChild(toast);
 
     setTimeout(() => {
         toast.remove();
     }, 3000);
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const postID = getDocID();

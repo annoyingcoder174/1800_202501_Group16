@@ -46,6 +46,47 @@ body {
     text-decoration: underline;
 }
 
+.custom-toast {
+    position: fixed;
+    bottom: 70px;
+    /* Above bottom navbar */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    /* Green success */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideInFadeOut 3s ease-in-out;
+}
+
+@keyframes slideInFadeOut {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+}
+
+
 /* Mobile Navigation Bar (Bottom Navbar) */
 @media (max-width: 768px) {
     .navbar {
@@ -85,6 +126,8 @@ body {
         padding-bottom: 70px;
     }
 }
+
+.cart
 
 /* Product Details Container */
 .container {
@@ -129,17 +172,33 @@ body {
 }
 
 /* Buttons */
+/* Vintage Styled Add to Cart Button */
 .cart-btn {
-    color: #008080;
-    border-color: #008080;
+    background-color: #28a745;
+    /* Success green */
+    border: 1px solid #218838;
+    /* Slightly darker green */
+    color: #ffffff;
+    /* White text */
+    border-radius: 25px;
+    /* Fully rounded corners */
+    padding: 10px 20px;
+    /* Comfortable padding */
+    font-size: 1rem;
+    font-family: 'Georgia', serif;
     font-weight: 600;
-    transition: background-color 0.3s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .cart-btn:hover {
-    background-color: #008080;
-    color: white;
+    background-color: #218838;
+    /* Darker on hover */
+    transform: translateY(-2px);
+    /* Slight lift effect */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
 }
+
 
 .buy-btn,
 .contact-btn {
